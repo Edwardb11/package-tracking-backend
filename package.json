@@ -2,9 +2,9 @@
   "name": "package-tracking-backend",
   "version": "1.0.0",
   "description": "REST API nodeJS y Mysql",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
