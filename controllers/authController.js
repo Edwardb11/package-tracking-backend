@@ -17,7 +17,7 @@ exports.register = async (req, res) => {
         if (error) {
           console.log(error);
         }
-        console.log(user,name,pas)
+        console.log(user, name, pas);
         console.log("Funciono");
       }
     );
@@ -32,7 +32,6 @@ exports.login = async (req, res) => {
     const pas = req.body.pas;
 
     if (!user || !pas) {
-        console.log("error 2")
       return { errors: true };
     } else {
       conexion.query(
@@ -43,8 +42,6 @@ exports.login = async (req, res) => {
             results.length == 0 ||
             !(await bcryptjs.compare(pas, results[0].pas))
           ) {
-            console.log("error 1")
-
             return { errors: true };
           } else {
             //inicio de sesión OK
