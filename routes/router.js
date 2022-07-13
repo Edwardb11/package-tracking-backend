@@ -9,6 +9,7 @@ router.get('/', (req, res) => {
   })
 //router para los métodos del controller
 router.post('/register', authController.register)
+router.get('/login', authController.login)
 
 
 module.exports = router
