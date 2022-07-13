@@ -7,16 +7,17 @@ exports.register = async (req, res) => {
     const name = req.body.name;
     const user = req.body.user;
     const pas = req.body.pas;
-    // let passHash = await bcryptjs.hash(pas, 8);
-    //console.log(passHash)
+    let passHash = await bcryptjs.hash(pas, 8);
+    // console.log(passHash)
     conexion.query(
       "INSERT INTO users SET ?",
-      { user: user, name: name, pas: pas },
+      { user: user, name: name, pas: passHash },
       (error, results) => {
         if (error) {
           console.log(error);
         }
         console.log("FUnciono");
+
       }
     );
   } catch (error) {

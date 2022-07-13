@@ -13,7 +13,7 @@ app.use(express.urlencoded({extended:true}))
 app.use(express.json())
 
 //seteamos las variables de entorno
-dotenv.config({path: './env/.env'})
+dotenv.config({path: '.env'})
 
 //para poder trabajar con las cookies
 app.use(cookieParser())
