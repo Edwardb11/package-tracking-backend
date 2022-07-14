@@ -71,11 +71,11 @@ export const Login = async (req, res) => {
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000,
     });
-    res.json({ accessToken, login: true, msg: "Datos correctos" });
+    res.json({ accessToken, login: true, msg: "Datos correctos",id:userId  });
   } catch (error) {
     res
       .status(404)
-      .json({ msg: "El correo electrónico no encontrado", login: false });
+      .json({ msg: "El correo electrónico no encontrado", login: false});
   }
 };
 
