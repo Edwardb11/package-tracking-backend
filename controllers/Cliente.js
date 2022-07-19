@@ -65,7 +65,7 @@ export const Login = async (req, res) => {
       { refresh_token: refreshToken },
       {
         where: {
-          id_clientes: userId,
+          correo_electronico: email,
         },
       }
     );
