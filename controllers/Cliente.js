@@ -43,19 +43,21 @@ export const Login = async (req, res) => {
     if (!match)
       return res
         .status(400)
-        .json({ msg: "Contraseña no coinciden", login: false });
+        .json({ msg: "La Contraseña no coincide", login: false });
     const userId = user[0].id_clientes;
     const name = user[0].nombres;
     const email = user[0].correo_electronico;
+    const sexo = user[0].sexo;
+    
     const accessToken = jwt.sign(
-      { userId, name, email },
+      { userId, name, email, sexo },
       process.env.ACCESS_TOKEN_SECRET,
       {
         expiresIn: "20s",
       }
     );
     const refreshToken = jwt.sign(
-      { userId, name, email },
+      { userId, name, email, sexo },
       process.env.REFRESH_TOKEN_SECRET,
       {
         expiresIn: "1d",
@@ -65,7 +67,7 @@ export const Login = async (req, res) => {
       { refresh_token: refreshToken },
       {
         where: {
-          correo_electronico: email,
+          id_clientes: userId,
         },
       }
     );
@@ -91,7 +93,7 @@ export const Logout = async (req, res) => {
     },
   });
   if (!user[0]) return res.sendStatus(204);
-  const userId = user[0].id;
+  const userId = user[0].id_clientes;
   await Cliente.update(
     { refresh_token: null },
     {

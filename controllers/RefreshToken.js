@@ -1,4 +1,3 @@
-
 import jwt from "jsonwebtoken";
 import Cliente from "../models/ClienteModel.js";
 
@@ -20,8 +19,9 @@ export const refreshToken = async (req, res) => {
         const userId = user[0].id;
         const name = user[0].name;
         const email = user[0].email;
+        const sexo = user[0].sexo;
         const accessToken = jwt.sign(
-          { userId, name, email },
+          { userId, name, email, sexo },
           process.env.ACCESS_TOKEN_SECRET,
           {
             expiresIn: "15s",
