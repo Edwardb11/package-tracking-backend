@@ -30,8 +30,6 @@ const Cliente = db.define("clientes", {
   fecha_nacimiento: {
     type: DataTypes.DATE,
   },
-
-  freezeTableName: true,
 });
 
 export default Cliente;

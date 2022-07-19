@@ -32,20 +32,21 @@ export const Register = async (req, res) => {
 };
 
 export const Login = async (req, res) => {
+  console.log(req.body);
   try {
     const user = await Cliente.findAll({
       where: {
-        email: req.body.email,
+        correo_electronico: req.body.correo_electronico,
       },
     });
-    const match = await bcrypt.compare(req.body.password, user[0].password);
+    const match = await bcrypt.compare(req.body.contrasena, user[0].contrasena);
     if (!match)
       return res
         .status(400)
         .json({ msg: "Contraseña no coinciden", login: false });
-    const userId = user[0].id;
-    const name = user[0].name;
-    const email = user[0].email;
+    const userId = user[0].id_clientes;
+    const name = user[0].nombres;
+    const email = user[0].correo_electronico;
     const accessToken = jwt.sign(
       { userId, name, email },
       process.env.ACCESS_TOKEN_SECRET,
@@ -64,7 +65,7 @@ export const Login = async (req, res) => {
       { refresh_token: refreshToken },
       {
         where: {
-          id: userId,
+          id_clientes: userId,
         },
       }
     );
@@ -74,6 +75,7 @@ export const Login = async (req, res) => {
     });
     res.json({ accessToken, login: true, msg: "Datos correctos", id: userId });
   } catch (error) {
+    console.log(error);
     res
       .status(404)
       .json({ msg: "El correo electrónico no encontrado", login: false });
