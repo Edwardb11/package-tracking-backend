@@ -30,6 +30,9 @@ const Cliente = db.define("clientes", {
   fecha_nacimiento: {
     type: DataTypes.DATE,
   },
+  refresh_token: {
+    type: DataTypes.TEXT,
+  },
 });
 
 export default Cliente;
