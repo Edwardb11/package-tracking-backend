@@ -1,27 +1,28 @@
-import Users from "../models/UserModel.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-
-export const getUsers = async (req, res) => {
-  try {
-    const users = await Users.findAll({
-      attributes: ["id", "name", "email"],
-    });
-    res.json(users);
-  } catch (error) {
-    console.log(error);
-  }
-};
+import Cliente from "../models/ClienteModel.js";
 
 export const Register = async (req, res) => {
-  const { name, email, password } = req.body;
+  const {
+    correo_electronico,
+    contrasena,
+    nombres,
+    apellidos,
+    sexo,
+    celular,
+    fecha_nacimiento,
+  } = req.body;
   const salt = await bcrypt.genSalt();
-  const hashPassword = await bcrypt.hash(password, salt);
+  const hashPassword = await bcrypt.hash(contrasena, salt);
   try {
-    await Users.create({
-      name: name,
-      email: email,
-      password: hashPassword,
+    await Cliente.create({
+      correo_electronico: correo_electronico,
+      contrasena: hashPassword,
+      nombres: nombres,
+      apellidos: apellidos,
+      sexo: sexo,
+      celular: celular,
+      fecha_nacimiento: fecha_nacimiento,
     });
     res.json({ msg: "Registrado exitoxamente", login: true });
   } catch (error) {
@@ -31,39 +32,42 @@ export const Register = async (req, res) => {
 };
 
 export const Login = async (req, res) => {
+  console.log(req.body);
   try {
-    const user = await Users.findAll({
+    const user = await Cliente.findAll({
       where: {
-        email: req.body.email,
+        correo_electronico: req.body.correo_electronico,
       },
     });
-    const match = await bcrypt.compare(req.body.password, user[0].password);
+    const match = await bcrypt.compare(req.body.contrasena, user[0].contrasena);
     if (!match)
       return res
         .status(400)
-        .json({ msg: "Contraseña no coinciden", login: false });
-    const userId = user[0].id;
-    const name = user[0].name;
-    const email = user[0].email;
+        .json({ msg: "La Contraseña no coincide", login: false });
+    const userId = user[0].id_clientes;
+    const name = user[0].nombres;
+    const email = user[0].correo_electronico;
+    const sexo = user[0].sexo;
+    
     const accessToken = jwt.sign(
-      { userId, name, email },
+      { userId, name, email, sexo },
       process.env.ACCESS_TOKEN_SECRET,
       {
         expiresIn: "20s",
       }
     );
     const refreshToken = jwt.sign(
-      { userId, name, email },
+      { userId, name, email, sexo },
       process.env.REFRESH_TOKEN_SECRET,
       {
         expiresIn: "1d",
       }
     );
-    await Users.update(
+    await Cliente.update(
       { refresh_token: refreshToken },
       {
         where: {
-          id: userId,
+          id_clientes: userId,
         },
       }
     );
@@ -71,25 +75,26 @@ export const Login = async (req, res) => {
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000,
     });
-    res.json({ accessToken, login: true, msg: "Datos correctos",id:userId  });
+    res.json({ accessToken, login: true, msg: "Datos correctos", id: userId });
   } catch (error) {
+    console.log(error);
     res
       .status(404)
-      .json({ msg: "El correo electrónico no encontrado", login: false});
+      .json({ msg: "El correo electrónico no encontrado", login: false });
   }
 };
 
 export const Logout = async (req, res) => {
   const refreshToken = req.cookies.refreshToken;
   if (!refreshToken) return res.sendStatus(204);
-  const user = await Users.findAll({
+  const user = await Cliente.findAll({
     where: {
       refresh_token: refreshToken,
     },
   });
   if (!user[0]) return res.sendStatus(204);
-  const userId = user[0].id;
-  await Users.update(
+  const userId = user[0].id_clientes;
+  await Cliente.update(
     { refresh_token: null },
     {
       where: {
