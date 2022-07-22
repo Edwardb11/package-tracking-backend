@@ -8,8 +8,8 @@ const router = express.Router();
 
 router.post("/register", Register);
 router.post("/login", Login);
-router.post("/paquete", Paquete);
-router.post("/usuarioFinal", UsuariosFinal);
+router.post("/package", Paquete);
+router.post("/userFinal", UsuariosFinal);
 router.get("/token", refreshToken);
 router.delete("/logout", Logout);
 
