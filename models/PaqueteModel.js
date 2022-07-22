@@ -2,7 +2,7 @@ import { Sequelize } from "sequelize";
 import db from "../database/Database.js";
 import Cliente from "./ClienteModel.js";
 import TipoPaquetes from "./TipoPaquetes.js";
-import UsuarioFinal from "./UserFinal.js";
+import UsuarioFinal from "./UsuarioFinal.js";
 
 const { DataTypes } = Sequelize;
 
@@ -30,11 +30,6 @@ const Paquetes = db.define("paquetes", {
   cantidad: {
     type: DataTypes.INTEGER,
   },
-    // Desabilitando 
-    createdAt: false,
-
-    // Desabilitando
-    updatedAt: false,
 });
 
 Cliente.belongsTo(Paquetes, { foreignKey: "id_clientes" });

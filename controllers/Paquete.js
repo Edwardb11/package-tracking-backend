@@ -20,9 +20,9 @@ export const Paquete = async (req, res) => {
             peso: peso,
             cantidad: cantidad
         });
-        res.json({ msg: "Paquete registrado exitoxamente", login: true });
+        res.json({ msg: "Paquete registrado exitoxamente"});
     } catch (error) {
         console.log(error);
-        return res.status(400).json({ msg: "Algo anda mal", login: false });
+        return res.status(400).json({ msg: "Algo anda mal"});
     }
 };
