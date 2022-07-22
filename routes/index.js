@@ -1,5 +1,5 @@
 import express from "express";
-import { Login,Register,Logout } from "../controllers/Cliente.js";
+import { Login, Register, Logout } from "../controllers/Cliente.js";
 import { Paquete } from "../controllers/Paquete.js";
 import { refreshToken } from "../controllers/RefreshToken.js";
 import { UsuariosFinal } from "../controllers/UsuarioFinal.js";

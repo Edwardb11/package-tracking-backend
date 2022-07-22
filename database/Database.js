@@ -4,8 +4,8 @@ const db = new Sequelize("sistema_de_paqueteria", "root", "", {
   host: "localhost",
   dialect: "mysql",
   define: {
-    timestamps: false
-}
+    timestamps: false,
+  },
 });
 
 export default db;

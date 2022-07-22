@@ -9,21 +9,20 @@ const UsuarioFinal = db.define("usuario_final", {
     autoIncrement: true,
     primaryKey: true,
   },
-  nombres:{
-      type:DataTypes.STRING
+  nombres: {
+    type: DataTypes.STRING,
   },
-  apellidos:{
-      type:DataTypes.STRING
+  apellidos: {
+    type: DataTypes.STRING,
   },
-  sexo:{
-      type:DataTypes.STRING
+  sexo: {
+    type: DataTypes.STRING,
   },
-  ubicación:{
-      type:DataTypes.STRING
+  ubicación: {
+    type: DataTypes.STRING,
   },
-  celular:{
-      type:DataTypes.STRING
+  celular: {
+    type: DataTypes.STRING,
   },
-
-})
+});
 export default UsuarioFinal;
