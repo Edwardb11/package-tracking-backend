@@ -48,7 +48,7 @@ export const Login = async (req, res) => {
     const name = user[0].nombres;
     const email = user[0].correo_electronico;
     const sexo = user[0].sexo;
-    
+
     const accessToken = jwt.sign(
       { userId, name, email, sexo },
       process.env.ACCESS_TOKEN_SECRET,
