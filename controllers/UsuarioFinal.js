@@ -1,9 +1,9 @@
-import UsuarioFinal from "../models/UsuarioFinal.js";
+import UsuariosFinal from "../models/UsuarioFinal.js";
 
-export const UsuariosFinal = async (req, res) => {
+export const UsuarioFinal = async (req, res) => {
   const { nombres, apellidos, sexo, ubicación, celular } = req.body;
   try {
-    await UsuarioFinal.create({
+    await UsuariosFinal.create({
       nombres: nombres,
       apellidos: apellidos,
       sexo: sexo,

@@ -5,6 +5,7 @@ const db = new Sequelize("sistema_de_paqueteria", "root", "", {
   dialect: "mysql",
   define: {
     timestamps: false,
+    freezeTableName: true,
   },
 });
 
