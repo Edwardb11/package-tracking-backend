@@ -27,13 +27,16 @@ const Paquetes = db.define("paquetes", {
   peso: {
     type: DataTypes.INTEGER,
   },
+  costo: {
+    type: DataTypes.INTEGER,
+  },
   cantidad: {
     type: DataTypes.INTEGER,
   },
 });
 
-Cliente.belongsTo(Paquetes, { foreignKey: "id_clientes" });
-Paquetes.hasMany(Cliente, { foreignKey: "id_clientes" });
-Paquetes.hasMany(TipoPaquetes, { foreignKey: "tipo_paquete" });
-Paquetes.hasMany(UsuarioFinal, { foreignKey: "id_usuario_final" });
+Cliente.hasMany(Paquetes, { foreignKey: "id_clientes" });
+Paquetes.belongsTo(Cliente, { foreignKey: "id_clientes" });
+Paquetes.belongsTo(UsuarioFinal, { foreignKey: "id_usuario_final" });
+Paquetes.hasMany(TipoPaquetes, { foreignKey: "id_tipo" });
 export default Paquetes;
