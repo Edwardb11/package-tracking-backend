@@ -39,4 +39,5 @@ Cliente.hasMany(Paquetes, { foreignKey: "id_clientes" });
 Paquetes.belongsTo(Cliente, { foreignKey: "id_clientes" });
 Paquetes.belongsTo(UsuarioFinal, { foreignKey: "id_usuario_final" });
 Paquetes.hasMany(TipoPaquetes, { foreignKey: "id_tipo" });
+
 export default Paquetes;
