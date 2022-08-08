@@ -1,4 +1,6 @@
+import Cliente from "../models/ClienteModel.js";
 import Paquetes from "../models/PaqueteModel.js";
+import UsuariosFinal from "../models/UsuarioFinal.js";
 
 export const Paquete = async (req, res) => {
   const {
@@ -24,5 +26,22 @@ export const Paquete = async (req, res) => {
   } catch (error) {
     console.log(error);
     return res.status(400).json({ msg: "Algo anda mal" });
+  }
+};
+
+export const GetPaquete = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const data = await Paquetes.findAll({
+      where: { id_clientes: id },
+      include: [
+        { model: Cliente },
+        { model: UsuariosFinal },
+        // { model: TipoPaquetes },
+      ],
+    });
+    res.json({ data });
+  } catch (error) {
+    console.log(error);
   }
 };
