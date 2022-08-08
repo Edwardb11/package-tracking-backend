@@ -34,7 +34,11 @@ export const GetPaquete = async (req, res) => {
     const id = req.params.id;
     const data = await Paquetes.findAll({
       where: { id_clientes: id },
-      include: [{ model: Cliente }, { model: UsuariosFinal }],
+      include: [
+        { model: Cliente },
+        { model: UsuariosFinal },
+        // { model: TipoPaquetes },
+      ],
     });
     res.json({ data });
   } catch (error) {
