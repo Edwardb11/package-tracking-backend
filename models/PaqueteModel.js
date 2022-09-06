@@ -1,6 +1,6 @@
 import { Sequelize } from "sequelize";
 import db from "../database/Database.js";
-import Cliente from "./ClienteModel.js";
+import clientModel from "./clientModel.js";
 import TipoPaquetes from "./TipoPaquetes.js";
 import UsuarioFinal from "./UsuarioFinal.js";
 
@@ -35,8 +35,8 @@ const Paquetes = db.define("paquetes", {
   },
 });
 
-Cliente.hasMany(Paquetes, { foreignKey: "id_clientes"});
-Paquetes.belongsTo(Cliente, { foreignKey: "id_clientes" });
+clientModel.hasMany(Paquetes, { foreignKey: "id_clientes"});
+Paquetes.belongsTo(clientModel, { foreignKey: "id_clientes" });
 Paquetes.belongsTo(UsuarioFinal, { foreignKey: "id_usuario_final" });
 Paquetes.hasMany(TipoPaquetes, {foreignKey:"tipo_paquete"})
 

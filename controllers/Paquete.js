@@ -1,4 +1,4 @@
-import Cliente from "../models/ClienteModel.js";
+import clientModel from "../models/clientModel.js";
 import Paquetes from "../models/PaqueteModel.js";
 import UsuariosFinal from "../models/UsuarioFinal.js";
 
@@ -35,7 +35,7 @@ export const GetPaquete = async (req, res) => {
     const data = await Paquetes.findAll({
       where: { id_clientes: id },
       include: [
-        { model: Cliente },
+        { model: clientModel },
         { model: UsuariosFinal },
         // { model: TipoPaquetes },
       ],

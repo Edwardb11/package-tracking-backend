@@ -1,11 +1,11 @@
 import jwt from "jsonwebtoken";
-import Cliente from "../models/ClienteModel.js";
+import clientModel from "../models/clientModel.js";
 
 export const refreshToken = async (req, res) => {
   try {
     const refreshToken = req.cookies.refreshToken;
     if (!refreshToken) return res.sendStatus(401);
-    const user = await Cliente.findAll({
+    const user = await clientModel.findAll({
       where: {
         refresh_token: refreshToken,
       },
