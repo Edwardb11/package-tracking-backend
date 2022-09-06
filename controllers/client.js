@@ -3,16 +3,8 @@ import jwt from "jsonwebtoken";
 import ClientModel from "../models/clientModel.js";
 
 export const Register = async (req, res) => {
-  const {
-    email,
-    password,
-    name,
-    lastName,
-    sex,
-    phone,
-    birthDate,
-  } = req.body;
-  const salt = await bcrypt.genSalt()
+  const { email, password, name, lastName, sex, phone, birthDate } = req.body;
+  const salt = await bcrypt.genSalt();
   const hashPassword = await bcrypt.hash(password, salt);
   try {
     await ClientModel.create({
@@ -39,13 +31,16 @@ export const Login = async (req, res) => {
         correo_electronico: req.body.email,
       },
     });
-    const match = await bcrypt.compare(req.body.password, cliente[0].password);
+    const match = await bcrypt.compare(
+      req.body.password,
+      cliente[0].contraseña
+    );
     if (!match)
       return res.status(400).json({ msg: "La contraseña no coincide" });
     const clienteId = cliente[0].id_cliente;
-    const name = cliente[0].name;
-    const email = cliente[0].email;
-    const sex = cliente[0].sex;
+    const name = cliente[0].nombres;
+    const email = cliente[0].correo_electronico;
+    const sex = cliente[0].sexo;
 
     const accessToken = jwt.sign(
       { clienteId, name, email, sex },
@@ -61,8 +56,8 @@ export const Login = async (req, res) => {
         expiresIn: "1h",
       }
     );
-    await Cliente.update(
-      { refresh_token: refreshToken },
+    await ClientModel.update(
+      { token: refreshToken },
       {
         where: {
           id_cliente: clienteId,
