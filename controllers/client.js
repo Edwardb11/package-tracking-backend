@@ -4,25 +4,25 @@ import ClientModel from "../models/clientModel.js";
 
 export const Register = async (req, res) => {
   const {
-    correo_electronico,
-    contraseña,
-    nombres,
-    apellidos,
-    sexo,
-    celular,
-    fecha_nacimiento,
+    email,
+    password,
+    name,
+    lastName,
+    sex,
+    phone,
+    birthDate,
   } = req.body;
   const salt = await bcrypt.genSalt()
-  const hashPassword = await bcrypt.hash(contraseña, salt);
+  const hashPassword = await bcrypt.hash(password, salt);
   try {
     await ClientModel.create({
-      correo_electronico: correo_electronico,
+      correo_electronico: email,
       contraseña: hashPassword,
-      nombres: nombres,
-      apellidos: apellidos,
-      sexo: sexo,
-      celular: celular,
-      fecha_nacimiento: fecha_nacimiento,
+      nombres: name,
+      apellidos: lastName,
+      sexo: sex,
+      celular: phone,
+      fecha_nacimiento: birthDate,
     });
     res.json({ msg: "Registrado exitoxamente" });
   } catch (error) {
@@ -36,26 +36,26 @@ export const Login = async (req, res) => {
   try {
     const cliente = await ClientModel.findAll({
       where: {
-        correo_electronico: req.body.correo_electronico,
+        correo_electronico: req.body.email,
       },
     });
-    const match = await bcrypt.compare(req.body.contraseña, user[0].contraseña);
+    const match = await bcrypt.compare(req.body.password, cliente[0].password);
     if (!match)
       return res.status(400).json({ msg: "La contraseña no coincide" });
     const clienteId = cliente[0].id_cliente;
-    const name = cliente[0].nombres;
-    const email = cliente[0].correo_electronico;
-    const sexo = cliente[0].sexo;
+    const name = cliente[0].name;
+    const email = cliente[0].email;
+    const sex = cliente[0].sex;
 
     const accessToken = jwt.sign(
-      { clienteId, name, email, sexo },
+      { clienteId, name, email, sex },
       process.env.ACCESS_TOKEN_SECRET,
       {
         expiresIn: "20s",
       }
     );
     const refreshToken = jwt.sign(
-      { clienteId, name, email, sexo },
+      { clienteId, name, email, sex },
       process.env.REFRESH_TOKEN_SECRET,
       {
         expiresIn: "1h",
@@ -99,7 +99,7 @@ export const Logout = async (req, res) => {
     { refresh_token: null },
     {
       where: {
-        id: clienteId,
+        id_cliente: clienteId,
       },
     }
   );
