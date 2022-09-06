@@ -3,7 +3,7 @@ import db from "../database/Database.js";
 
 const { DataTypes } = Sequelize;
 
-const Cliente = db.define("cliente", {
+const ClientModel = db.define("cliente", {
   id_cliente: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -35,4 +35,4 @@ const Cliente = db.define("cliente", {
   },
 });
 
-export default Cliente;
+export default ClientModel;

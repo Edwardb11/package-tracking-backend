@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import Cliente from "../models/ClienteModel.js";
+import ClientModel from "../models/clientModel.js";
 
 export const Register = async (req, res) => {
   const {
@@ -12,12 +12,12 @@ export const Register = async (req, res) => {
     celular,
     fecha_nacimiento,
   } = req.body;
-  // const salt = await bcrypt.genSalt()
-  // const hashPassword = await bcrypt.hash(contraseña, salt);
+  const salt = await bcrypt.genSalt()
+  const hashPassword = await bcrypt.hash(contraseña, salt);
   try {
-    await Cliente.create({
+    await ClientModel.create({
       correo_electronico: correo_electronico,
-      contraseña: contraseña,
+      contraseña: hashPassword,
       nombres: nombres,
       apellidos: apellidos,
       sexo: sexo,
@@ -34,7 +34,7 @@ export const Register = async (req, res) => {
 export const Login = async (req, res) => {
   console.log(req.body);
   try {
-    const cliente = await Cliente.findAll({
+    const cliente = await ClientModel.findAll({
       where: {
         correo_electronico: req.body.correo_electronico,
       },
@@ -88,14 +88,14 @@ export const Login = async (req, res) => {
 export const Logout = async (req, res) => {
   const refreshToken = req.cookies.refreshToken;
   if (!refreshToken) return res.sendStatus(204);
-  const cliente = await Cliente.findAll({
+  const cliente = await ClientModel.findAll({
     where: {
       refresh_token: refreshToken,
     },
   });
   if (!cliente[0]) return res.sendStatus(204);
   const clienteId = cliente[0].id_cliente;
-  await Cliente.update(
+  await ClientModel.update(
     { refresh_token: null },
     {
       where: {
