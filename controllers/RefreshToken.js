@@ -1,11 +1,11 @@
 import jwt from "jsonwebtoken";
-import Cliente from "../models/ClienteModel.js";
+import clientModel from "../models/clientModel.js";
 
 export const refreshToken = async (req, res) => {
   try {
     const refreshToken = req.cookies.refreshToken;
     if (!refreshToken) return res.sendStatus(401);
-    const user = await Cliente.findAll({
+    const user = await clientModel.findAll({
       where: {
         refresh_token: refreshToken,
       },
@@ -16,12 +16,12 @@ export const refreshToken = async (req, res) => {
       process.env.REFRESH_TOKEN_SECRET,
       (err, decoded) => {
         if (err) return res.sendStatus(403);
-        const userId = user[0].id;
+        const clienteId = user[0].id;
         const name = user[0].name;
         const email = user[0].email;
-        const sexo = user[0].sexo;
+        const sex = user[0].sexo;
         const accessToken = jwt.sign(
-          { userId, name, email, sexo },
+          { clienteId, name, email, sex },
           process.env.ACCESS_TOKEN_SECRET,
           {
             expiresIn: "15s",

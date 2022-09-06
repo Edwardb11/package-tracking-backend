@@ -2,7 +2,7 @@ import { Sequelize } from "sequelize";
 import db from "../database/Database.js";
 const { DataTypes } = Sequelize;
 
-const PaquetesClientes = db.define("paquetes_clientes", {
+const PackagesStatesModel = db.define("paquetes_clientes", {
   id_paquetes_clientes: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -16,4 +16,4 @@ const PaquetesClientes = db.define("paquetes_clientes", {
   },
 });
 
-export default PaquetesClientes
+export default PackagesStatesModel

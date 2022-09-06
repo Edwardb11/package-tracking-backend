@@ -1,13 +1,13 @@
-import UsuariosFinal from "../models/UsuarioFinal.js";
+import EndUsersModel from "../models/endUsersModel.js";
 
-export const UsuarioFinal = async (req, res) => {
-  const { nombres, apellidos, sexo, ubicación, celular } = req.body;
+export const EndUsers = async (req, res) => {
+  const { nombres, apellidos, sexo, ubicacion, celular } = req.body;
   try {
-    await UsuariosFinal.create({
+    await EndUsersModel.create({
       nombres: nombres,
       apellidos: apellidos,
       sexo: sexo,
-      ubicación: ubicación,
+      ubicacion: ubicacion,
       celular: celular,
     });
     res.json({ msg: "Usuario Final registrado exitoxamente" });

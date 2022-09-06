@@ -1,6 +1,6 @@
 import { Sequelize } from "sequelize";
 
-const db = new Sequelize("sistema_de_paqueteria", "root", "", {
+const db = new Sequelize("sistema_paqueteriaV1", "root", "", {
   host: "localhost",
   dialect: "mysql",
   define: {

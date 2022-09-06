@@ -3,8 +3,8 @@ import db from "../database/Database.js";
 
 const { DataTypes } = Sequelize;
 
-const Cliente = db.define("clientes", {
-  id_clientes: {
+const ClientModel = db.define("cliente", {
+  id_cliente: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true,
@@ -12,7 +12,7 @@ const Cliente = db.define("clientes", {
   correo_electronico: {
     type: DataTypes.STRING,
   },
-  contrasena: {
+  contraseña: {
     type: DataTypes.STRING,
   },
   nombres: {
@@ -30,9 +30,9 @@ const Cliente = db.define("clientes", {
   fecha_nacimiento: {
     type: DataTypes.DATE,
   },
-  refresh_token: {
+  token: {
     type: DataTypes.TEXT,
   },
 });
 
-export default Cliente;
+export default ClientModel;
