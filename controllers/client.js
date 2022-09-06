@@ -85,13 +85,13 @@ export const Logout = async (req, res) => {
   if (!refreshToken) return res.sendStatus(204);
   const cliente = await ClientModel.findAll({
     where: {
-      refresh_token: refreshToken,
+      token: refreshToken,
     },
   });
   if (!cliente[0]) return res.sendStatus(204);
   const clienteId = cliente[0].id_cliente;
   await ClientModel.update(
-    { refresh_token: null },
+    { token: null },
     {
       where: {
         id_cliente: clienteId,
