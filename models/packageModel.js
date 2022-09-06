@@ -1,24 +1,20 @@
 import { Sequelize } from "sequelize";
 import db from "../database/Database.js";
 import clientModel from "./clientModel.js";
-import TipoPaquetes from "./TipoPaquetes.js";
-import UsuarioFinal from "./UsuarioFinal.js";
+import EndUsersModel from "./endUsersModel.js";
 
 const { DataTypes } = Sequelize;
 
-const Paquetes = db.define("paquetes", {
-  id_paquetes: {
+const PackageModel = db.define("paquete", {
+  id_paquete: {
     type: DataTypes.INTEGER,
     autoIncrement: false,
     primaryKey: true,
   },
-  id_clientes: {
+  id_cliente: {
     type: DataTypes.INTEGER,
   },
   id_usuario_final: {
-    type: DataTypes.INTEGER,
-  },
-  tipo_paquete: {
     type: DataTypes.INTEGER,
   },
   nombre: {
@@ -35,9 +31,7 @@ const Paquetes = db.define("paquetes", {
   },
 });
 
-clientModel.hasMany(Paquetes, { foreignKey: "id_clientes"});
-Paquetes.belongsTo(clientModel, { foreignKey: "id_clientes" });
-Paquetes.belongsTo(UsuarioFinal, { foreignKey: "id_usuario_final" });
-Paquetes.hasMany(TipoPaquetes, {foreignKey:"tipo_paquete"})
+PackageModel.belongsTo(clientModel, { foreignKey: "id_cliente" });
+PackageModel.belongsTo(EndUsersModel, { foreignKey: "id_usuario_final" });
 
-export default Paquetes;
+export default PackageModel;
