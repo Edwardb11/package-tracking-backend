@@ -3,18 +3,18 @@ import jwt from "jsonwebtoken";
 import ClientModel from "../models/clientModel.js";
 
 export const Register = async (req, res) => {
-  const { email, password, name, lastName, sex, phone, birthDate } = req.body;
+  const { correo_electronico, contraseña, nombres, apellidos, sexo, celular, fecha_nacimiento } = req.body;
   const salt = await bcrypt.genSalt();
-  const hashPassword = await bcrypt.hash(password, salt);
+  const hashPassword = await bcrypt.hash(contraseña, salt);
   try {
     await ClientModel.create({
-      correo_electronico: email,
+      correo_electronico: correo_electronico,
       contraseña: hashPassword,
-      nombres: name,
-      apellidos: lastName,
-      sexo: sex,
-      celular: phone,
-      fecha_nacimiento: birthDate,
+      nombres: nombres,
+      apellidos: apellidos,
+      sexo: sexo,
+      celular: celular,
+      fecha_nacimiento: fecha_nacimiento,
     });
     res.json({ msg: "Registrado exitoxamente" });
   } catch (error) {
@@ -24,15 +24,15 @@ export const Register = async (req, res) => {
 };
 
 export const Login = async (req, res) => {
-  console.log(req.body);
+  console.log(req.body)
   try {
     const cliente = await ClientModel.findAll({
       where: {
-        correo_electronico: req.body.email,
+        correo_electronico: req.body.correo_electronico,
       },
     });
     const match = await bcrypt.compare(
-      req.body.password,
+      req.body.contraseña,
       cliente[0].contraseña
     );
     if (!match)
@@ -40,17 +40,17 @@ export const Login = async (req, res) => {
     const clienteId = cliente[0].id_cliente;
     const name = cliente[0].nombres;
     const email = cliente[0].correo_electronico;
-    const sex = cliente[0].sexo;
+    const sexo = cliente[0].sexo;
 
     const accessToken = jwt.sign(
-      { clienteId, name, email, sex },
+      { clienteId, name, email, sexo },
       process.env.ACCESS_TOKEN_SECRET,
       {
         expiresIn: "20s",
       }
     );
     const refreshToken = jwt.sign(
-      { clienteId, name, email, sex },
+      { clienteId, name, email, sexo },
       process.env.REFRESH_TOKEN_SECRET,
       {
         expiresIn: "1h",
