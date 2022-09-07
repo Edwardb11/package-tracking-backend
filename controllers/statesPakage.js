@@ -9,9 +9,9 @@ export const GetPackageStates = async (req, res) => {
     const data = await PackagesStatesModel.findAll({
       where: { id_paquetes: id },
       include: [
-        //   { model: PackageModel },
-        //   { model: StateModel },
-        //   { model: StaffModel },
+          {model: StateModel},
+          {model: StaffModel},
+          {model: PackageModel}
       ],
     });
     console.log(data);

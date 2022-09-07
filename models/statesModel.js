@@ -1,6 +1,5 @@
 import { Sequelize } from "sequelize";
 import db from "../database/Database.js";
-import PackageModel from "./packageModel.js";
 
 const { DataTypes } = Sequelize;
 
@@ -14,6 +13,5 @@ const StateModel = db.define("estados", {
     type: DataTypes.STRING,
   },
 });
-// PackageModel.belongsToMany(StateModel, { through: 'PackagesStatesModel' });
 
 export default StateModel;

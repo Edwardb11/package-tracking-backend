@@ -1,7 +1,7 @@
 import clientModel from "../models/clientModel.js";
 import PackageModel from "../models/packageModel.js";
 import EndUsersModel from "../models/endUsersModel.js";
-// import PackagesStatesModel from "../models/packagesStatesModel.js";
+import PackagesStatesModel from "../models/packagesStatesModel.js";
 
 export const Package = async (req, res) => {
   const {
@@ -37,7 +37,6 @@ export const GetPackage = async (req, res) => {
       include: [
         { model: clientModel },
         { model: EndUsersModel },
-        // { model: PackagesStatesModel },
       ],
     });
     res.json({ data });

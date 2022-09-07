@@ -36,4 +36,5 @@ const PackageModel = db.define("paquete", {
 PackageModel.belongsTo(clientModel, { foreignKey: "id_cliente" });
 PackageModel.belongsTo(EndUsersModel, { foreignKey: "id_usuario_final" });
 
+
 export default PackageModel;

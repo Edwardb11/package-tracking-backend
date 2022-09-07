@@ -28,6 +28,8 @@ PackageModel.belongsToMany(StateModel, {
   through: PackagesStatesModel,
   foreignKey: "id_paquetes",
 });
-PackageModel.belongsTo(StaffModel, { foreignKey: "id_personal" });
+PackagesStatesModel.belongsTo(StaffModel, { foreignKey: "id_personal" });
+PackagesStatesModel.belongsTo(StateModel, { foreignKey: "id_estado" });
+PackagesStatesModel.belongsTo(PackageModel, { foreignKey: "id_paquetes" });
 
 export default PackagesStatesModel;
