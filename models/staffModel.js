@@ -27,6 +27,14 @@ const StaffModel = db.define("personal", {
   niveles_estudios: {
     type: DataTypes.STRING,
   },
+  creado: {
+    type: DataTypes.TIME,
+    allowNull: true,
+  },
+  actualizado: {
+    type: DataTypes.TIME,
+    allowNull: true,
+  },
 });
 
 export default StaffModel;

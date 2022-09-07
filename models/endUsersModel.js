@@ -3,7 +3,7 @@ import db from "../database/Database.js";
 
 const { DataTypes } = Sequelize;
 
-const EndUsersModel = db.define('usuario_finales', {
+const EndUsersModel = db.define("usuario_finales", {
   id_usuario_final: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -23,6 +23,14 @@ const EndUsersModel = db.define('usuario_finales', {
   },
   celular: {
     type: DataTypes.STRING,
+  },
+  creado: {
+    type: DataTypes.TIME,
+    allowNull: true,
+  },
+  actualizado: {
+    type: DataTypes.TIME,
+    allowNull: true,
   },
 });
 export default EndUsersModel;

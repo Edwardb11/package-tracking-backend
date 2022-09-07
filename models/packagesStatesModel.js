@@ -18,6 +18,14 @@ const PackagesStatesModel = db.define("paquetes_estados", {
     type: DataTypes.INTEGER,
     primaryKey: true,
   },
+  creado: {
+    type: DataTypes.TIME,
+    allowNull: true,
+  },
+  actualizado: {
+    type: DataTypes.TIME,
+    allowNull: true,
+  },
 });
 
 StateModel.belongsToMany(PackageModel, {

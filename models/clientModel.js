@@ -33,6 +33,14 @@ const ClientModel = db.define("cliente", {
   token: {
     type: DataTypes.TEXT,
   },
+  creado: {
+    type: DataTypes.TIME,
+    allowNull: true,
+  },
+  actualizado: {
+    type: DataTypes.TIME,
+    allowNull: true,
+  },
 });
 
 export default ClientModel;

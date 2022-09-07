@@ -31,10 +31,17 @@ const PackageModel = db.define("paquete", {
   cantidad: {
     type: DataTypes.INTEGER,
   },
+  creado: {
+    type: DataTypes.TIME,
+    allowNull: true,
+  },
+  actualizado: {
+    type: DataTypes.TIME,
+    allowNull: true,
+  },
 });
 
 PackageModel.belongsTo(clientModel, { foreignKey: "id_cliente" });
 PackageModel.belongsTo(EndUsersModel, { foreignKey: "id_usuario_final" });
-
 
 export default PackageModel;
