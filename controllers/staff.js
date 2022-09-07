@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs";
+import RolesModel from "../models/rolesModel.js";
 import StaffModel from "../models/staffModel.js";
 
 export const RegisterStaff = async (req, res) => {
@@ -25,5 +26,20 @@ export const RegisterStaff = async (req, res) => {
   } catch (error) {
     console.log(error);
     return res.status(400).json({ msg: "Solicitud incorrecta" });
+  }
+};
+
+export const GetStaff = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const data = await StaffModel.findAll({
+      where: { id_personal: id },
+      include:[{
+        model:RolesModel
+      }]
+    });
+    res.json({ data: data});
+  } catch (error) {
+    console.log(error);
   }
 };

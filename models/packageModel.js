@@ -13,9 +13,11 @@ const PackageModel = db.define("paquete", {
   },
   id_cliente: {
     type: DataTypes.INTEGER,
+    primaryKey: true,
   },
   id_usuario_final: {
     type: DataTypes.INTEGER,
+    primaryKey: true,
   },
   nombre: {
     type: DataTypes.STRING,
@@ -28,6 +30,14 @@ const PackageModel = db.define("paquete", {
   },
   cantidad: {
     type: DataTypes.INTEGER,
+  },
+  creado: {
+    type: DataTypes.TIME,
+    allowNull: true,
+  },
+  actualizado: {
+    type: DataTypes.TIME,
+    allowNull: true,
   },
 });
 
