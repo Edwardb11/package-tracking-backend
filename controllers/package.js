@@ -1,7 +1,9 @@
-import clientModel from "../models/clientModel.js";
-import PackageModel from "../models/packageModel.js";
+import ClientModel from "../models/clientModel.js";
 import EndUsersModel from "../models/endUsersModel.js";
+import PackageModel from "../models/packageModel.js";
 import PackagesStatesModel from "../models/packagesStatesModel.js";
+import StaffModel from "../models/staffModel.js";
+import StateModel from "../models/statesModel.js";
 
 export const Package = async (req, res) => {
   const {
@@ -40,6 +42,29 @@ export const GetPackage = async (req, res) => {
       ],
     });
     res.json({ data });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const GetPackageStates = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const data = await PackagesStatesModel.findAll({
+      where: { id_paquetes: id },
+      include: [
+          {model: StateModel},
+          {model: StaffModel},
+        ],
+    });
+   const packages = await PackageModel.findAll({
+    where: { id_paquete: id },
+    include: [
+      { model: ClientModel },
+      { model: EndUsersModel },
+    ],
+  });
+  res.json({package:packages,state:data})
   } catch (error) {
     console.log(error);
   }
