@@ -30,7 +30,11 @@ export const GetPackage = async (req, res) => {
     const id = req.params.id;
     const data = await PackageModel.findAll({
       where: { id_cliente: id },
-      include: [{ model: ClientModel }, { model: EndUsersModel }],
+      include: [
+        { model: ClientModel },
+        { model: EndUsersModel },
+        { model: StateModel },
+      ],
     });
     res.json({ data });
   } catch (error) {
