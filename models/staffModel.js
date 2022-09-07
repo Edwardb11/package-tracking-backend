@@ -28,4 +28,8 @@ const StaffModel = db.define("personal", {
     type: DataTypes.STRING,
   },
 });
+
+// StaffModel.belongsToMany(RolesModel, { through: 'StaffRolesModel' });
+// RolesModel.belongsToMany(StaffModel, { through: 'StaffRolesModel' });
+
 export default StaffModel;
