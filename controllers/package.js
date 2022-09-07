@@ -6,15 +6,9 @@ import StaffModel from "../models/staffModel.js";
 import StateModel from "../models/statesModel.js";
 
 export const Package = async (req, res) => {
-  const {
-    id_paquete,
-    id_cliente,
-    id_usuario_final,
-    nombre,
-    peso,
-    cantidad,
-  } = req.body;
-  console.log(req.body)
+  const { id_paquete, id_cliente, id_usuario_final, nombre, peso, cantidad } =
+    req.body;
+  console.log(req.body);
   try {
     await PackageModel.create({
       id_paquete: id_paquete,
@@ -24,7 +18,7 @@ export const Package = async (req, res) => {
       peso: peso,
       cantidad: cantidad,
     });
-    res.json({ msg: "Paquete registrado exitoxamente"});
+    res.json({ msg: "Paquete registrado exitoxamente" });
   } catch (error) {
     console.log(error);
     return res.status(400).json({ msg: "Solicitud invalida" });
@@ -36,10 +30,7 @@ export const GetPackage = async (req, res) => {
     const id = req.params.id;
     const data = await PackageModel.findAll({
       where: { id_cliente: id },
-      include: [
-        { model: clientModel },
-        { model: EndUsersModel },
-      ],
+      include: [{ model: clientModel }, { model: EndUsersModel }],
     });
     res.json({ data });
   } catch (error) {
@@ -52,19 +43,13 @@ export const GetPackageStates = async (req, res) => {
     const id = req.params.id;
     const data = await PackagesStatesModel.findAll({
       where: { id_paquetes: id },
-      include: [
-          {model: StateModel},
-          {model: StaffModel},
-        ],
+      include: [{ model: StateModel }, { model: StaffModel }],
     });
-   const packages = await PackageModel.findAll({
-    where: { id_paquete: id },
-    include: [
-      { model: ClientModel },
-      { model: EndUsersModel },
-    ],
-  });
-  res.json({package:packages,state:data})
+    const packages = await PackageModel.findAll({
+      where: { id_paquete: id },
+      include: [{ model: ClientModel }, { model: EndUsersModel }],
+    });
+    res.json({ package: packages, state: data });
   } catch (error) {
     console.log(error);
   }
