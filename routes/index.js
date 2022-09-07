@@ -1,5 +1,5 @@
 import express from "express";
-import { Login, Register, Logout } from "../controllers/client.js";
+import { Login, Register, Logout, GetClient } from "../controllers/client.js";
 import { Package, GetPackage,GetPackageStates  } from "../controllers/package.js";
 import { refreshToken } from "../controllers/refreshToken.js";
 import { EndUsers } from "../controllers/endUsers.js";
@@ -20,6 +20,7 @@ router.get("/token", refreshToken);
 router.get("/getPackage/:id", GetPackage);
 router.get("/getPackageStates/:id", GetPackageStates);
 router.get("/getStaff/:id", GetStaff);
+router.get("/getClient/:id", GetClient);
 
 
 // PUT

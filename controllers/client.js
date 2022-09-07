@@ -3,7 +3,15 @@ import jwt from "jsonwebtoken";
 import ClientModel from "../models/clientModel.js";
 
 export const Register = async (req, res) => {
-  const { correo_electronico, contraseña, nombres, apellidos, sexo, celular, fecha_nacimiento } = req.body;
+  const {
+    correo_electronico,
+    contraseña,
+    nombres,
+    apellidos,
+    sexo,
+    celular,
+    fecha_nacimiento,
+  } = req.body;
   const salt = await bcrypt.genSalt();
   const hashPassword = await bcrypt.hash(contraseña, salt);
   try {
@@ -24,7 +32,6 @@ export const Register = async (req, res) => {
 };
 
 export const Login = async (req, res) => {
-  console.log(req.body)
   try {
     const cliente = await ClientModel.findAll({
       where: {
@@ -100,4 +107,16 @@ export const Logout = async (req, res) => {
   );
   res.clearCookie("refreshToken");
   return res.sendStatus(200);
+};
+
+export const GetClient = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const data = await ClientModel.findAll({
+      where: { id_cliente: id },
+    });
+    res.json({ data: data });
+  } catch (error) {
+    console.log(error);
+  }
 };
