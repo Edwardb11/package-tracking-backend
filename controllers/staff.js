@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import RolesModel from "../models/rolesModel.js";
 import StaffModel from "../models/staffModel.js";
+import StaffRolesModel from "../models/staffRolesModel.js";
 
 export const RegisterStaff = async (req, res) => {
   const {
@@ -32,13 +33,16 @@ export const RegisterStaff = async (req, res) => {
 export const GetStaff = async (req, res) => {
   try {
     const id = req.params.id;
-    const data = await StaffModel.findAll({
+    const data = await StaffRolesModel.findAll({
       where: { id_personal: id },
-      include:[{
-        model:RolesModel
-      }]
+      include: [
+        {
+          model: RolesModel,
+        },
+        { model: StaffModel },
+      ],
     });
-    res.json({ data: data});
+    res.json({ data: data });
   } catch (error) {
     console.log(error);
   }
