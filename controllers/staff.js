@@ -45,10 +45,9 @@ export const GetStaff = async (req, res) => {
     });
     res.json({ data: data });
   } catch (error) {
-    console.log(error);
+    return res.status(404).json({ msg: "Cliente no encontrado", error: error });
   }
 };
-
 
 export const LoginStaff = async (req, res) => {
   try {
@@ -56,7 +55,7 @@ export const LoginStaff = async (req, res) => {
       where: {
         correo_electronico: req.body.correo_electronico,
       },
-      include:[{model:RolesModel,attributes:['id_roles','nombre']}]
+      include: [{ model: RolesModel, attributes: ["id_roles", "nombre"] }],
     });
     const match = await bcrypt.compare(
       req.body.contraseña,
@@ -69,13 +68,6 @@ export const LoginStaff = async (req, res) => {
     const name = staff[0].nombres;
     const email = staff[0].correo_electronico;
     const sexo = staff[0].sexo;
-
-    // const getRol = await StaffModel.findAll({
-    //   where: {
-    //     id_personal: staffId,
-    //   },
-    //   include:[{model:RolesModel}]
-    // });
 
     const accessToken = jwt.sign(
       { staffId, name, email, sexo },
@@ -103,17 +95,17 @@ export const LoginStaff = async (req, res) => {
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000,
     });
-    const rol = staff[0].roles
+    const rol = staff[0].roles;
     res.json({
       accessToken,
       login: true,
       msg: "Datos correctos",
       id: staffId,
-      rol:rol
+      rol: rol,
     });
   } catch (error) {
     console.log(error);
-    res.status(404).json({ msg: "El correo electrónico no encontrado" });
+    res.status(404).json({ msg: "Correo electrónico no encontrado" });
   }
 };
 
