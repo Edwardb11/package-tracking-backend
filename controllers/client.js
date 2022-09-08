@@ -83,7 +83,7 @@ export const Login = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(404).json({ msg: "El correo electrónico no encontrado" });
+    res.status(404).json({ msg: "Correo electrónico no encontrado" });
   }
 };
 

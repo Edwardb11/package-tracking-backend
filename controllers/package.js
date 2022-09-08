@@ -50,7 +50,7 @@ export const GetPackage = async (req, res) => {
     });
     res.json({ data });
   } catch (error) {
-    console.log(error);
+    return res.status(404).json({ msg: "Cliente no encontrado", error: error });
   }
 };
 
@@ -96,6 +96,6 @@ export const GetPackageStates = async (req, res) => {
     });
     res.json({ package: packages, state: data });
   } catch (error) {
-    console.log(error);
+    return res.status(404).json({ msg: "Paquete no encontrado", error: error });
   }
 };
