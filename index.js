@@ -4,10 +4,11 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 
 import db from "./database/Database.js";
-import router from "./routes/index.js";
+import v1Router from "./routes/index.js";
 
 dotenv.config();
 const app = express();
+const PORT = process.env.PORT || 3000;
 
 try {
   await db.authenticate();
@@ -19,6 +20,6 @@ try {
 app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
 app.use(cookieParser());
 app.use(express.json());
-app.use(router);
+app.use("/api/v1", v1Router);
 
-app.listen(5000, () => console.log("Server running at port 5000"));
+app.listen(PORT, () => console.log(`Server running at port ${PORT}`));
