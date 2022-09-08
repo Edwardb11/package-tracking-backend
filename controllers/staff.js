@@ -1,6 +1,8 @@
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 import RolesModel from "../models/rolesModel.js";
 import StaffModel from "../models/staffModel.js";
+import StaffRolesModel from "../models/staffRolesModel.js";
 
 export const RegisterStaff = async (req, res) => {
   const {
@@ -32,14 +34,107 @@ export const RegisterStaff = async (req, res) => {
 export const GetStaff = async (req, res) => {
   try {
     const id = req.params.id;
-    const data = await StaffModel.findAll({
+    const data = await StaffRolesModel.findAll({
       where: { id_personal: id },
-      include:[{
-        model:RolesModel
-      }]
+      include: [
+        {
+          model: RolesModel,
+        },
+        { model: StaffModel },
+      ],
     });
-    res.json({ data: data});
+    res.json({ data: data });
   } catch (error) {
     console.log(error);
   }
+};
+
+
+export const LoginStaff = async (req, res) => {
+  try {
+    const staff = await StaffModel.findAll({
+      where: {
+        correo_electronico: req.body.correo_electronico,
+      },
+      include:[{model:RolesModel,attributes:['id_roles','nombre']}]
+    });
+    const match = await bcrypt.compare(
+      req.body.contraseña,
+      staff[0].contraseña
+    );
+
+    if (!match)
+      return res.status(400).json({ msg: "La contraseña no coincide" });
+    const staffId = staff[0].id_personal;
+    const name = staff[0].nombres;
+    const email = staff[0].correo_electronico;
+    const sexo = staff[0].sexo;
+
+    // const getRol = await StaffModel.findAll({
+    //   where: {
+    //     id_personal: staffId,
+    //   },
+    //   include:[{model:RolesModel}]
+    // });
+
+    const accessToken = jwt.sign(
+      { staffId, name, email, sexo },
+      process.env.ACCESS_TOKEN_SECRET,
+      {
+        expiresIn: "20s",
+      }
+    );
+    const refreshToken = jwt.sign(
+      { staffId, name, email, sexo },
+      process.env.REFRESH_TOKEN_SECRET,
+      {
+        expiresIn: "1h",
+      }
+    );
+    await StaffModel.update(
+      { token: refreshToken },
+      {
+        where: {
+          id_personal: staffId,
+        },
+      }
+    );
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000,
+    });
+    const rol = staff[0].roles
+    res.json({
+      accessToken,
+      login: true,
+      msg: "Datos correctos",
+      id: staffId,
+      rol:rol
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({ msg: "El correo electrónico no encontrado" });
+  }
+};
+
+export const LogoutStaff = async (req, res) => {
+  const refreshToken = req.cookies.refreshToken;
+  if (!refreshToken) return res.sendStatus(204);
+  const staff = await StaffModel.findAll({
+    where: {
+      token: refreshToken,
+    },
+  });
+  if (!staff[0]) return res.sendStatus(204);
+  const staffId = staff[0].id_personal;
+  await StaffModel.update(
+    { token: null },
+    {
+      where: {
+        id_personal: staffId,
+      },
+    }
+  );
+  res.clearCookie("refreshToken");
+  return res.sendStatus(200);
 };

@@ -2,6 +2,7 @@ import ClientModel from "../models/clientModel.js";
 import EndUsersModel from "../models/endUsersModel.js";
 import PackageModel from "../models/packageModel.js";
 import PackagesStatesModel from "../models/packagesStatesModel.js";
+import RolesModel from "../models/rolesModel.js";
 import StaffModel from "../models/staffModel.js";
 import StateModel from "../models/statesModel.js";
 
@@ -31,7 +32,18 @@ export const GetPackage = async (req, res) => {
     const data = await PackageModel.findAll({
       where: { id_cliente: id },
       include: [
-        { model: ClientModel },
+        {
+          model: ClientModel,
+          attributes: [
+            "id_cliente",
+            "nombres",
+            "apellidos",
+            "sexo",
+            "celular",
+            "creado",
+            "actualizado",
+          ],
+        },
         { model: EndUsersModel },
         { model: StateModel },
       ],
@@ -47,11 +59,40 @@ export const GetPackageStates = async (req, res) => {
     const id = req.params.id;
     const data = await PackagesStatesModel.findAll({
       where: { id_paquetes: id },
-      include: [{ model: StateModel }, { model: StaffModel }],
+      include: [
+        { model: StateModel },
+        {
+          model: StaffModel,
+          attributes: [
+            "id_personal",
+            "nombres",
+            "apellidos",
+            "sexo",
+            "niveles_estudios",
+            "creado",
+            "actualizado",
+          ],
+          include: [{ model: RolesModel, attributes: ["nombre"] }],
+        },
+      ],
     });
     const packages = await PackageModel.findAll({
       where: { id_paquete: id },
-      include: [{ model: ClientModel }, { model: EndUsersModel }],
+      include: [
+        {
+          model: ClientModel,
+          attributes: [
+            "id_cliente",
+            "nombres",
+            "apellidos",
+            "sexo",
+            "celular",
+            "creado",
+            "actualizado",
+          ],
+        },
+        { model: EndUsersModel },
+      ],
     });
     res.json({ package: packages, state: data });
   } catch (error) {
