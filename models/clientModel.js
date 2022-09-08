@@ -32,6 +32,7 @@ const ClientModel = db.define("cliente", {
   },
   token: {
     type: DataTypes.TEXT,
+    allowNull: true,
   },
   creado: {
     type: DataTypes.TIME,
