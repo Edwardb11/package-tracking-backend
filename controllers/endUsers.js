@@ -16,7 +16,6 @@ export const EndUsers = async (req, res) => {
       })
     );
   } catch (error) {
-    console.log(error);
-    return res.status(400).json({ msg: "Algo anda mal", error: error });
+    return res.status(400).json({ msg: "Solicitud incorrecta", error: error });
   }
 };
