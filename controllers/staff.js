@@ -116,3 +116,25 @@ export const LoginStaff = async (req, res) => {
     res.status(404).json({ msg: "El correo electrónico no encontrado" });
   }
 };
+
+export const LogoutStaff = async (req, res) => {
+  const refreshToken = req.cookies.refreshToken;
+  if (!refreshToken) return res.sendStatus(204);
+  const staff = await StaffModel.findAll({
+    where: {
+      token: refreshToken,
+    },
+  });
+  if (!staff[0]) return res.sendStatus(204);
+  const staffId = staff[0].id_personal;
+  await StaffModel.update(
+    { token: null },
+    {
+      where: {
+        id_personal: staffId,
+      },
+    }
+  );
+  res.clearCookie("refreshToken");
+  return res.sendStatus(200);
+};

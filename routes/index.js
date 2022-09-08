@@ -3,7 +3,7 @@ import { Login, Register, Logout, GetClient } from "../controllers/client.js";
 import { Package, GetPackage,GetPackageStates  } from "../controllers/package.js";
 import { refreshTokenClient, refreshTokenStaff } from "../controllers/refreshToken.js";
 import { EndUsers } from "../controllers/endUsers.js";
-import { GetStaff, LoginStaff, RegisterStaff } from "../controllers/staff.js";
+import { GetStaff, LoginStaff, LogoutStaff, RegisterStaff } from "../controllers/staff.js";
 import { GetStates } from "../controllers/states.js";
 import { GetRoles } from "../controllers/roles.js";
 
@@ -33,5 +33,6 @@ router.get("/getClient/:id", GetClient);
 
 // DELETE
 router.delete("/logout", Logout);
+router.delete("/logoutStaff", LogoutStaff);
 
 export default router;
