@@ -9,8 +9,12 @@ export const EndUsers = async (req, res) => {
       sexo: sexo,
       ubicacion: ubicacion,
       celular: celular,
-    });
-    res.json({ msg: "Usuario Final registrado exitoxamente" });
+    }).then((result) =>
+      res.json({
+        msg: "Usuario Final registrado exitoxamente",
+        id: result.id_usuario_final,
+      })
+    );
   } catch (error) {
     console.log(error);
     return res.status(400).json({ msg: "Algo anda mal", error: error });
