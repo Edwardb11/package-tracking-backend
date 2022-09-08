@@ -56,17 +56,26 @@ export const LoginStaff = async (req, res) => {
       where: {
         correo_electronico: req.body.correo_electronico,
       },
+      include:[{model:RolesModel,attributes:['id_roles','nombre']}]
     });
     const match = await bcrypt.compare(
       req.body.contraseña,
       staff[0].contraseña
     );
+
     if (!match)
       return res.status(400).json({ msg: "La contraseña no coincide" });
     const staffId = staff[0].id_personal;
     const name = staff[0].nombres;
     const email = staff[0].correo_electronico;
     const sexo = staff[0].sexo;
+
+    // const getRol = await StaffModel.findAll({
+    //   where: {
+    //     id_personal: staffId,
+    //   },
+    //   include:[{model:RolesModel}]
+    // });
 
     const accessToken = jwt.sign(
       { staffId, name, email, sexo },
@@ -94,11 +103,13 @@ export const LoginStaff = async (req, res) => {
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000,
     });
+    const rol = staff[0].roles
     res.json({
       accessToken,
       login: true,
       msg: "Datos correctos",
       id: staffId,
+      rol:rol
     });
   } catch (error) {
     console.log(error);
