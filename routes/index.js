@@ -5,6 +5,7 @@ import { refreshToken } from "../controllers/refreshToken.js";
 import { EndUsers } from "../controllers/endUsers.js";
 import { GetStaff, RegisterStaff } from "../controllers/staff.js";
 import { GetStates } from "../controllers/states.js";
+import { GetRoles } from "../controllers/roles.js";
 
 
 const router = express.Router();
@@ -19,6 +20,7 @@ router.post("/addEndUsers", EndUsers);
 // GET
 router.get("/token", refreshToken);
 router.get("/getState", GetStates);
+router.get("/getRoles", GetRoles);
 router.get("/getPackage/:id", GetPackage);
 router.get("/getPackageStates/:id", GetPackageStates);
 router.get("/getStaff/:id", GetStaff);
