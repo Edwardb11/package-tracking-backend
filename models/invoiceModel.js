@@ -12,8 +12,7 @@ const InvoiceModel = db.define("factura", {
     primaryKey: true,
   },
   id_paquete: {
-    type: DataTypes.INTEGER,
-    autoIncrement: false,
+    type: DataTypes.STRING,
     primaryKey: true,
   },
   id_metodo_de_pago: {
