@@ -88,25 +88,29 @@ export const Login = async (req, res) => {
 };
 
 export const Logout = async (req, res) => {
-  const refreshToken = req.cookies.refreshToken;
-  if (!refreshToken) return res.sendStatus(204);
-  const cliente = await ClientModel.findAll({
-    where: {
-      token: refreshToken,
-    },
-  });
-  if (!cliente[0]) return res.sendStatus(204);
-  const clienteId = cliente[0].id_cliente;
-  await ClientModel.update(
-    { token: null },
-    {
+  try {
+    const refreshToken = req.cookies.refreshToken;
+    if (!refreshToken) return res.sendStatus(204);
+    const cliente = await ClientModel.findAll({
       where: {
-        id_cliente: clienteId,
+        token: refreshToken,
       },
-    }
-  );
-  res.clearCookie("refreshToken");
-  return res.sendStatus(200);
+    });
+    if (!cliente[0]) return res.sendStatus(204);
+    const clienteId = cliente[0].id_cliente;
+    await ClientModel.update(
+      { token: null },
+      {
+        where: {
+          id_cliente: clienteId,
+        },
+      }
+    );
+    res.clearCookie("refreshToken");
+    return res.sendStatus(200);
+  } catch (error) {
+    res.status(404).json({ msg: "Ha ocurrido un error" });
+  }
 };
 
 export const GetClient = async (req, res) => {
@@ -117,6 +121,6 @@ export const GetClient = async (req, res) => {
     });
     res.json({ data: data });
   } catch (error) {
-    return res.status(404).json({ msg: "Cliente no encontrado",error:error });
+    return res.status(404).json({ msg: "Cliente no encontrado", error: error });
   }
 };
