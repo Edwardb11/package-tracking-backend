@@ -33,18 +33,6 @@ export const GetPackage = async (req, res) => {
     const data = await PackageModel.findAll({
       where: { id_cliente: id },
       include: [
-        {
-          model: ClientModel,
-          attributes: [
-            "id_cliente",
-            "nombres",
-            "apellidos",
-            "sexo",
-            "celular",
-            "creado",
-            "actualizado",
-          ],
-        },
         { model: EndUsersModel },
         { model: StateModel },
         { model: InvoiceModel },
