@@ -43,7 +43,9 @@ export const Login = async (req, res) => {
       cliente[0].contraseña
     );
     if (!match)
-      return res.status(400).json({ msg: "La contraseña no coincide" });
+      return res
+        .status(400)
+        .json({ msg: "La contraseña es incorrecta, intente nuevamente." });
     const clienteId = cliente[0].id_cliente;
     const name = cliente[0].nombres;
     const email = cliente[0].correo_electronico;
@@ -83,7 +85,11 @@ export const Login = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(404).json({ msg: "Correo electrónico no encontrado" });
+    res
+      .status(404)
+      .json({
+        msg: "El correo electrónico proprocionado no se encontra en nuestro sistema. ",
+      });
   }
 };
 
@@ -117,6 +123,6 @@ export const GetClient = async (req, res) => {
     });
     res.json({ data: data });
   } catch (error) {
-    return res.status(404).json({ msg: "Cliente no encontrado",error:error });
+    return res.status(404).json({ msg: "Cliente no encontrado", error: error });
   }
 };
