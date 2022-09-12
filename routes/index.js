@@ -36,7 +36,7 @@ router.get("/getClient/:id", GetClient);
 // PUT
 
 // DELETE
-router.delete("/logout", Logout);
+router.delete("/logout/:id", Logout);
 router.delete("/logoutStaff", LogoutStaff);
 
 export default router;

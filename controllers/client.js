@@ -94,25 +94,29 @@ export const Login = async (req, res) => {
 };
 
 export const Logout = async (req, res) => {
-  const refreshToken = req.cookies.refreshToken;
-  if (!refreshToken) return res.sendStatus(204);
-  const cliente = await ClientModel.findAll({
-    where: {
-      token: refreshToken,
-    },
-  });
-  if (!cliente[0]) return res.sendStatus(204);
-  const clienteId = cliente[0].id_cliente;
-  await ClientModel.update(
-    { token: null },
-    {
-      where: {
-        id_cliente: clienteId,
-      },
-    }
-  );
-  res.clearCookie("refreshToken");
-  return res.sendStatus(200);
+  try {
+    // const refreshToken = req.cookies.refreshToken;
+    // if (!refreshToken) return res.sendStatus(204);
+    // const cliente = await ClientModel.findAll({
+    //   where: {
+    //     token: refreshToken,
+    //   },
+    // });
+    // if (!cliente[0]) return res.sendStatus(204);
+    const id = req.params.id;
+    await ClientModel.update(
+      { token: null },
+      {
+        where: {
+          id_cliente: id,
+        },
+      }
+    );
+    // res.clearCookie("refreshToken");
+    return res.sendStatus(200);
+  } catch (error) {
+    res.status(404).json({ msg: "Ha ocurrido un error" });
+  }
 };
 
 export const GetClient = async (req, res) => {
