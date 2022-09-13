@@ -25,9 +25,6 @@ const PackageModel = db.define("paquete", {
   peso: {
     type: DataTypes.INTEGER,
   },
-  costo: {
-    type: DataTypes.INTEGER,
-  },
   cantidad: {
     type: DataTypes.INTEGER,
   },
