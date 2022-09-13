@@ -1,5 +1,6 @@
 import ClientModel from "../models/clientModel.js";
 import EndUsersModel from "../models/endUsersModel.js";
+import InvoiceModel from "../models/invoiceModel.js";
 import PackageModel from "../models/packageModel.js";
 import PackagesStatesModel from "../models/packagesStatesModel.js";
 import RolesModel from "../models/rolesModel.js";
@@ -32,20 +33,9 @@ export const GetPackage = async (req, res) => {
     const data = await PackageModel.findAll({
       where: { id_cliente: id },
       include: [
-        {
-          model: ClientModel,
-          attributes: [
-            "id_cliente",
-            "nombres",
-            "apellidos",
-            "sexo",
-            "celular",
-            "creado",
-            "actualizado",
-          ],
-        },
         { model: EndUsersModel },
         { model: StateModel },
+        { model: InvoiceModel },
       ],
     });
     res.json({ data });

@@ -6,6 +6,8 @@ import { EndUsers } from "../controllers/endUsers.js";
 import { GetStaff, LoginStaff, LogoutStaff, RegisterStaff } from "../controllers/staff.js";
 import { GetStates } from "../controllers/states.js";
 import { GetRoles } from "../controllers/roles.js";
+import { GetPaymentMethod } from "../controllers/paymentMethod.js";
+import { AddInvoice } from "../controllers/invoice.js";
 
 
 const router = express.Router();
@@ -17,12 +19,14 @@ router.post("/login", Login);
 router.post("/loginStaff", LoginStaff);
 router.post("/package", Package);
 router.post("/addEndUsers", EndUsers);
+router.post("/addInvoice", AddInvoice);
 
 // GET
 router.get("/tokenClient", refreshTokenClient);
 router.get("/tokenStaff", refreshTokenStaff);
 router.get("/getState", GetStates);
 router.get("/getRoles", GetRoles);
+router.get("/getPayment", GetPaymentMethod);
 router.get("/getPackage/:id", GetPackage);
 router.get("/getPackageStates/:id", GetPackageStates);
 router.get("/getStaff/:id", GetStaff);
@@ -32,7 +36,7 @@ router.get("/getClient/:id", GetClient);
 // PUT
 
 // DELETE
-router.delete("/logout", Logout);
+router.delete("/logout/:id", Logout);
 router.delete("/logoutStaff", LogoutStaff);
 
 export default router;

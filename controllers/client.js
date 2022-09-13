@@ -43,7 +43,9 @@ export const Login = async (req, res) => {
       cliente[0].contraseña
     );
     if (!match)
-      return res.status(400).json({ msg: "La contraseña no coincide" });
+      return res
+        .status(400)
+        .json({ msg: "La contraseña es incorrecta, intente nuevamente." });
     const clienteId = cliente[0].id_cliente;
     const name = cliente[0].nombres;
     const email = cliente[0].correo_electronico;
@@ -83,30 +85,38 @@ export const Login = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(404).json({ msg: "Correo electrónico no encontrado" });
+    res
+      .status(404)
+      .json({
+        msg: "El correo electrónico proprocionado no se encontra en nuestro sistema. ",
+      });
   }
 };
 
 export const Logout = async (req, res) => {
-  const refreshToken = req.cookies.refreshToken;
-  if (!refreshToken) return res.sendStatus(204);
-  const cliente = await ClientModel.findAll({
-    where: {
-      token: refreshToken,
-    },
-  });
-  if (!cliente[0]) return res.sendStatus(204);
-  const clienteId = cliente[0].id_cliente;
-  await ClientModel.update(
-    { token: null },
-    {
-      where: {
-        id_cliente: clienteId,
-      },
-    }
-  );
-  res.clearCookie("refreshToken");
-  return res.sendStatus(200);
+  try {
+    // const refreshToken = req.cookies.refreshToken;
+    // if (!refreshToken) return res.sendStatus(204);
+    // const cliente = await ClientModel.findAll({
+    //   where: {
+    //     token: refreshToken,
+    //   },
+    // });
+    // if (!cliente[0]) return res.sendStatus(204);
+    const id = req.params.id;
+    await ClientModel.update(
+      { token: null },
+      {
+        where: {
+          id_cliente: id,
+        },
+      }
+    );
+    // res.clearCookie("refreshToken");
+    return res.sendStatus(200);
+  } catch (error) {
+    res.status(404).json({ msg: "Ha ocurrido un error" });
+  }
 };
 
 export const GetClient = async (req, res) => {
@@ -117,6 +127,6 @@ export const GetClient = async (req, res) => {
     });
     res.json({ data: data });
   } catch (error) {
-    return res.status(404).json({ msg: "Cliente no encontrado",error:error });
+    return res.status(404).json({ msg: "Cliente no encontrado", error: error });
   }
 };

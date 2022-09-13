@@ -7,7 +7,7 @@ const { DataTypes } = Sequelize;
 
 const PackageModel = db.define("paquete", {
   id_paquete: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     autoIncrement: false,
     primaryKey: true,
   },
