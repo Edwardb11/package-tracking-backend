@@ -3,7 +3,7 @@ import db from "../database/Database.js";
 
 const { DataTypes } = Sequelize;
 
-const PaymentMethodModel = db.define("metodos_de_pago", {
+const PaymentMethodModel = db.define("metodos_de_pagos", {
   id_metodo_de_pago: {
     type: DataTypes.INTEGER,
     autoIncrement: true,

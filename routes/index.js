@@ -7,7 +7,8 @@ import { GetStaff, LoginStaff, LogoutStaff, RegisterStaff } from "../controllers
 import { GetStates } from "../controllers/states.js";
 import { GetRoles } from "../controllers/roles.js";
 import { GetPaymentMethod } from "../controllers/paymentMethod.js";
-import { AddInvoice } from "../controllers/invoice.js";
+import { AddInvoice, GetInvoice } from "../controllers/invoice.js";
+import { GetPaymentTransaction, PaymentTransaction } from "../controllers/transactions.js";
 
 
 const router = express.Router();
@@ -20,6 +21,7 @@ router.post("/loginStaff", LoginStaff);
 router.post("/package", Package);
 router.post("/addEndUsers", EndUsers);
 router.post("/addInvoice", AddInvoice);
+router.post("/paymentTransaction", PaymentTransaction);
 
 // GET
 router.get("/tokenClient", refreshTokenClient);
@@ -31,6 +33,8 @@ router.get("/getPackage/:id", GetPackage);
 router.get("/getPackageStates/:id", GetPackageStates);
 router.get("/getStaff/:id", GetStaff);
 router.get("/getClient/:id", GetClient);
+router.get("/getPaymentTransaction/:id", GetPaymentTransaction);
+router.get("/getInvoice/:id", GetInvoice);
 
 
 // PUT
