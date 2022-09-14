@@ -36,6 +36,6 @@ const TransactionsModel = db.define("transacciones", {
 TransactionsModel.belongsTo(PaymentMethodModel, {
   foreignKey: "id_metodo_de_pago",
 });
-PackageModel.hasOne(InvoiceModel, { foreignKey: "id_factura" });
+TransactionsModel.belongsTo(InvoiceModel, { foreignKey: "id_factura" });
 
 export default TransactionsModel;

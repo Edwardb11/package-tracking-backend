@@ -1,3 +1,4 @@
+import InvoiceModel from "../models/invoiceModel.js";
 import PaymentMethodModel from "../models/paymentMethodModel.js";
 import TransactionsModel from "../models/transactionsModel.js";
 
@@ -22,14 +23,22 @@ export const GetPaymentTransaction = async (req, res) => {
   try {
     const data = await TransactionsModel.findAll({
       where: { id_factura: id },
-      include: [{ model: PaymentMethodModel } ],
+      include: [{ model: InvoiceModel }],
     });
-    res.json({
-      data: data, paid:true
+    if (data.length === 0) {
+      res.status(404).json({
+        paid: false,
+      });
+    }
+    else{
+    res.status(200).json({
+      data: data,
+      paid: true,
     });
+  }
   } catch (error) {
     return res
       .status(404)
-      .json({ msg: "Transsacion no encontrada", error: error });
+      .json({ msg: "Transsacion no encontrada", paid: false });
   }
 };
