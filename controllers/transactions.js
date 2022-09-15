@@ -26,7 +26,7 @@ export const GetPaymentTransaction = async (req, res) => {
       include: [{ model: InvoiceModel }],
     });
     if (data.length === 0) {
-      res.status(404).json({
+      res.status(200).json({
         paid: false,
       });
     }
