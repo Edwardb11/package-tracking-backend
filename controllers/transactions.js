@@ -2,6 +2,7 @@ import ClientModel from "../models/clientModel.js";
 import EndUsersModel from "../models/endUsersModel.js";
 import InvoiceModel from "../models/invoiceModel.js";
 import PackageModel from "../models/packageModel.js";
+import PaymentMethodModel from "../models/paymentMethodModel.js";
 import TransactionsModel from "../models/transactionsModel.js";
 
 export const PaymentTransaction = async (req, res) => {
@@ -44,6 +45,7 @@ export const GetPaymentTransaction = async (req, res) => {
             },
           ],
         },
+        { model: PaymentMethodModel },
       ],
     });
     if (data.length === 0) {
