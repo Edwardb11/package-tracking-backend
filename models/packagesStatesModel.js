@@ -18,6 +18,9 @@ const PackagesStatesModel = db.define("paquetes_estados", {
     type: DataTypes.INTEGER,
     primaryKey: true,
   },
+  ubicacion: {
+    type: DataTypes.STRING,
+  },
   creado: {
     type: DataTypes.TIME,
     allowNull: true,
