@@ -54,7 +54,7 @@ export const GetPaymentTransaction = async (req, res) => {
       });
     } else {
       res.status(200).json({
-        data: data,
+        transaction: data,
         paid: true,
       });
     }
