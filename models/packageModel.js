@@ -28,6 +28,9 @@ const PackageModel = db.define("paquete", {
   cantidad: {
     type: DataTypes.INTEGER,
   },
+  ubicacion: {
+    type: DataTypes.STRING,
+  },
   creado: {
     type: DataTypes.TIME,
     allowNull: true,

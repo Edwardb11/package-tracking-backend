@@ -1,4 +1,7 @@
+import ClientModel from "../models/clientModel.js";
+import EndUsersModel from "../models/endUsersModel.js";
 import InvoiceModel from "../models/invoiceModel.js";
+import PackageModel from "../models/packageModel.js";
 import PaymentMethodModel from "../models/paymentMethodModel.js";
 import TransactionsModel from "../models/transactionsModel.js";
 
@@ -23,19 +26,38 @@ export const GetPaymentTransaction = async (req, res) => {
   try {
     const data = await TransactionsModel.findAll({
       where: { id_factura: id },
-      include: [{ model: InvoiceModel }],
+      include: [
+        {
+          model: InvoiceModel,
+          include: [
+            {
+              model: PackageModel,
+              include: [
+                {
+                  model: ClientModel,
+                  attributes: ["nombres", "apellidos", "celular"],
+                },
+                {
+                  model: EndUsersModel,
+                  attributes: ["nombres", "apellidos", "celular", "ubicacion"],
+                },
+              ],
+            },
+          ],
+        },
+        { model: PaymentMethodModel },
+      ],
     });
     if (data.length === 0) {
-      res.status(404).json({
+      res.status(200).json({
         paid: false,
       });
+    } else {
+      res.status(200).json({
+        transaction: data,
+        paid: true,
+      });
     }
-    else{
-    res.status(200).json({
-      data: data,
-      paid: true,
-    });
-  }
   } catch (error) {
     return res
       .status(404)
