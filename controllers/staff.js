@@ -68,16 +68,17 @@ export const LoginStaff = async (req, res) => {
     const name = staff[0].nombres;
     const email = staff[0].correo_electronico;
     const sexo = staff[0].sexo;
+    const rol = staff[0].roles;
 
     const accessToken = jwt.sign(
-      { staffId, name, email, sexo },
+      { staffId, name, email, sexo, rol },
       process.env.ACCESS_TOKEN_SECRET,
       {
         expiresIn: "20s",
       }
     );
     const refreshToken = jwt.sign(
-      { staffId, name, email, sexo },
+      { staffId, name, email, sexo, rol },
       process.env.REFRESH_TOKEN_SECRET,
       {
         expiresIn: "1h",
@@ -95,7 +96,6 @@ export const LoginStaff = async (req, res) => {
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000,
     });
-    const rol = staff[0].roles;
     res.json({
       accessToken,
       login: true,
