@@ -39,7 +39,7 @@ export const RegisterStaff = async (req, res) => {
   }
 };
 
-export const GetStaff = async (req, res) => {
+export const GetStaffID = async (req, res) => {
   try {
     const id = req.params.id;
     const data = await StaffRolesModel.findAll({
@@ -48,12 +48,49 @@ export const GetStaff = async (req, res) => {
         {
           model: RolesModel,
         },
-        { model: StaffModel },
+        {
+          model: StaffModel,
+          attributes: [
+            "id_personal",
+            "nombres",
+            "apellidos",
+            "sexo",
+            "niveles_estudios",
+            "creado",
+            "actualizado",
+          ],
+        },
       ],
     });
     res.json({ data: data });
   } catch (error) {
     return res.status(404).json({ msg: "Cliente no encontrado", error: error });
+  }
+};
+export const GetStaff = async (req, res) => {
+  try {
+    const data = await StaffRolesModel.findAll({
+      include: [
+        { model: RolesModel },
+        {
+          model: StaffModel,
+          attributes: [
+            "id_personal",
+            "nombres",
+            "apellidos",
+            "sexo",
+            "niveles_estudios",
+            "creado",
+            "actualizado",
+          ],
+        },
+      ],
+    });
+    res.json({ data: data });
+  } catch (error) {
+    return res
+      .status(404)
+      .json({ msg: "Empleado no encontrado", error: error });
   }
 };
 
@@ -139,7 +176,7 @@ export const LogoutStaff = async (req, res) => {
   return res.sendStatus(200);
 };
 
-export const StaffRol = async (req, res)  => {
+export const StaffRol = async (req, res) => {
   const { id_personal, id_roles } = req.body;
   try {
     await StaffRolesModel.create({
