@@ -27,8 +27,13 @@ export const RegisterStaff = async (req, res) => {
       niveles_estudios: niveles_estudios,
       fecha_nacimiento: fecha_nacimiento,
       celular: celular,
-    });
-    res.json({ msg: "Registrado exitoxamente" });
+    }).then((result) =>
+      res.json({
+        msg: "Personal Final registrado exitoxamente",
+        id: result.id_personal,
+      })
+    );
+
   } catch (error) {
     console.log(error);
     return res.status(400).json({ msg: "Solicitud incorrecta" });
