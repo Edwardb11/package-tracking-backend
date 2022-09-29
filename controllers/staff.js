@@ -70,19 +70,12 @@ export const GetStaffID = async (req, res) => {
 export const GetStaff = async (req, res) => {
   try {
     const data = await StaffRolesModel.findAll({
+      attributes: [],
       include: [
-        { model: RolesModel },
+        { model: RolesModel, attributes: ["nombre"] },
         {
           model: StaffModel,
-          attributes: [
-            "id_personal",
-            "nombres",
-            "apellidos",
-            "sexo",
-            "niveles_estudios",
-            "creado",
-            "actualizado",
-          ],
+          attributes: ["id_personal", "nombres", "apellidos", "celular"],
         },
       ],
     });
