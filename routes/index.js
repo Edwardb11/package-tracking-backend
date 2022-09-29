@@ -3,7 +3,7 @@ import { Login, Register, Logout, GetClient } from "../controllers/client.js";
 import { Package, GetPackage,GetPackageStates  } from "../controllers/package.js";
 import { refreshTokenClient, refreshTokenStaff } from "../controllers/refreshToken.js";
 import { EndUsers } from "../controllers/endUsers.js";
-import { GetStaff, LoginStaff, LogoutStaff, RegisterStaff } from "../controllers/staff.js";
+import { GetStaff, LoginStaff, LogoutStaff, RegisterStaff, StaffRol } from "../controllers/staff.js";
 import { GetStates } from "../controllers/states.js";
 import { GetRoles } from "../controllers/roles.js";
 import { GetPaymentMethod } from "../controllers/paymentMethod.js";
@@ -22,6 +22,7 @@ router.post("/package", Package);
 router.post("/addEndUsers", EndUsers);
 router.post("/addInvoice", AddInvoice);
 router.post("/paymentTransaction", PaymentTransaction);
+router.post("/addStaffRol", StaffRol);
 
 // GET
 router.get("/tokenClient", refreshTokenClient);

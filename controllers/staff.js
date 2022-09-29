@@ -33,7 +33,6 @@ export const RegisterStaff = async (req, res) => {
         id: result.id_personal,
       })
     );
-
   } catch (error) {
     console.log(error);
     return res.status(400).json({ msg: "Solicitud incorrecta" });
@@ -138,4 +137,20 @@ export const LogoutStaff = async (req, res) => {
   );
   res.clearCookie("refreshToken");
   return res.sendStatus(200);
+};
+
+export const StaffRol = async (req, res)  => {
+  const { id_personal, id_roles } = req.body;
+  try {
+    await StaffRolesModel.create({
+      id_personal: id_personal,
+      id_roles: id_roles,
+    });
+    res.json({
+      msg: "Rol agregado exitoxamente",
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ msg: "Solicitud incorrecta" });
+  }
 };
