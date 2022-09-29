@@ -12,6 +12,8 @@ export const RegisterStaff = async (req, res) => {
     apellidos,
     sexo,
     niveles_estudios,
+    fecha_nacimiento,
+    celular,
   } = req.body;
   const salt = await bcrypt.genSalt();
   const hashPassword = await bcrypt.hash(contraseña, salt);
@@ -23,6 +25,8 @@ export const RegisterStaff = async (req, res) => {
       apellidos: apellidos,
       sexo: sexo,
       niveles_estudios: niveles_estudios,
+      fecha_nacimiento: fecha_nacimiento,
+      celular: celular,
     });
     res.json({ msg: "Registrado exitoxamente" });
   } catch (error) {
@@ -130,4 +134,3 @@ export const LogoutStaff = async (req, res) => {
   res.clearCookie("refreshToken");
   return res.sendStatus(200);
 };
-
