@@ -189,12 +189,18 @@ export const StaffRol = async (req, res) => {
 export const RemoveStaff = async (req, res) => {
   try {
     const id = req.params.id;
+    await StaffRolesModel.destroy({
+      where: {
+        id_personal: id,
+      },
+    });
+
     await StaffModel.destroy({
       where: {
         id_personal: id,
       },
     });
-    console.log(id);
+
     return res.sendStatus(200);
   } catch (error) {
     console.log(error);
