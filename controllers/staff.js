@@ -154,25 +154,20 @@ export const LoginStaff = async (req, res) => {
 };
 
 export const LogoutStaff = async (req, res) => {
-  const refreshToken = req.cookies.refreshToken;
-  if (!refreshToken) return res.sendStatus(204);
-  const staff = await StaffModel.findAll({
-    where: {
-      token: refreshToken,
-    },
-  });
-  if (!staff[0]) return res.sendStatus(204);
-  const staffId = staff[0].id_personal;
-  await StaffModel.update(
-    { token: null },
-    {
-      where: {
-        id_personal: staffId,
-      },
-    }
-  );
-  res.clearCookie("refreshToken");
-  return res.sendStatus(200);
+  try {
+    const id = req.params.id;
+    await StaffModel.update(
+      { token: null },
+      {
+        where: {
+          id_personal: id,
+        },
+      }
+    );
+    return res.sendStatus(200);
+  } catch (error) {
+    res.status(404).json({ msg: "Ha ocurrido un error" });
+  }
 };
 
 export const StaffRol = async (req, res) => {
@@ -199,10 +194,10 @@ export const RemoveStaff = async (req, res) => {
         id_personal: id,
       },
     });
-    console.log(id)
+    console.log(id);
     return res.sendStatus(200);
   } catch (error) {
-    console.log(error)
+    console.log(error);
     res.status(404).json({ msg: "Ha ocurrido un error" });
   }
 };

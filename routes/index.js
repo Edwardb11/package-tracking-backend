@@ -60,6 +60,6 @@ router.get("/getInvoice/:id", GetInvoice);
 // DELETE
 router.delete("/logout/:id", Logout);
 router.delete("/removeStaff/:id", RemoveStaff);
-router.delete("/logoutStaff", LogoutStaff);
+router.delete("/logoutStaff/:id", LogoutStaff);
 
 export default router;
