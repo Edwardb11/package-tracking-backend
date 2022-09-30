@@ -72,10 +72,16 @@ export const GetStaff = async (req, res) => {
     const data = await StaffRolesModel.findAll({
       attributes: [],
       include: [
-        { model: RolesModel, attributes: ["nombre"] },
         {
           model: StaffModel,
-          attributes: ["id_personal", "nombres", "apellidos", "celular"],
+          attributes: [
+            "id_personal",
+            "nombres",
+            "apellidos",
+            "celular",
+            "correo_electronico",
+          ],
+          include: [{ model: RolesModel, attributes: ["nombre"] }],
         },
       ],
     });
