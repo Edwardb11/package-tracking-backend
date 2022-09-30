@@ -190,3 +190,19 @@ export const StaffRol = async (req, res) => {
     return res.status(400).json({ msg: "Solicitud incorrecta" });
   }
 };
+
+export const RemoveStaff = async (req, res) => {
+  try {
+    const id = req.params.id;
+    await StaffModel.destroy({
+      where: {
+        id_personal: id,
+      },
+    });
+    console.log(id)
+    return res.sendStatus(200);
+  } catch (error) {
+    console.log(error)
+    res.status(404).json({ msg: "Ha ocurrido un error" });
+  }
+};

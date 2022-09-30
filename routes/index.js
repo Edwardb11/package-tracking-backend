@@ -1,15 +1,32 @@
 import express from "express";
 import { Login, Register, Logout, GetClient } from "../controllers/client.js";
-import { Package, GetPackage,GetPackageStates  } from "../controllers/package.js";
-import { refreshTokenClient, refreshTokenStaff } from "../controllers/refreshToken.js";
+import {
+  Package,
+  GetPackage,
+  GetPackageStates,
+} from "../controllers/package.js";
+import {
+  refreshTokenClient,
+  refreshTokenStaff,
+} from "../controllers/refreshToken.js";
 import { EndUsers } from "../controllers/endUsers.js";
-import { GetStaff, GetStaffID,LoginStaff, LogoutStaff, RegisterStaff, StaffRol } from "../controllers/staff.js";
+import {
+  GetStaff,
+  GetStaffID,
+  LoginStaff,
+  LogoutStaff,
+  RegisterStaff,
+  RemoveStaff,
+  StaffRol,
+} from "../controllers/staff.js";
 import { GetStates } from "../controllers/states.js";
 import { GetRoles } from "../controllers/roles.js";
 import { GetPaymentMethod } from "../controllers/paymentMethod.js";
 import { AddInvoice, GetInvoice } from "../controllers/invoice.js";
-import { GetPaymentTransaction, PaymentTransaction } from "../controllers/transactions.js";
-
+import {
+  GetPaymentTransaction,
+  PaymentTransaction,
+} from "../controllers/transactions.js";
 
 const router = express.Router();
 
@@ -38,11 +55,11 @@ router.get("/getClient/:id", GetClient);
 router.get("/getPaymentTransaction/:id", GetPaymentTransaction);
 router.get("/getInvoice/:id", GetInvoice);
 
-
 // PUT
 
 // DELETE
 router.delete("/logout/:id", Logout);
+router.delete("/removeStaff/:id", RemoveStaff);
 router.delete("/logoutStaff", LogoutStaff);
 
 export default router;
