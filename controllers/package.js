@@ -97,3 +97,20 @@ export const GetPackageStates = async (req, res) => {
     return res.status(404).json({ msg: "Paquete no encontrado", error: error });
   }
 };
+
+export const AddPackageStates = async (req, res) => {
+  const { id_paquetes, id_estado, id_personal, ubicacion } = req.body;
+  console.log(req.body);
+  try {
+    await PackageModel.create({
+      id_paquetes: id_paquetes,
+      id_estado: id_estado,
+      id_personal: id_personal,
+      ubicacion: ubicacion,
+    });
+    res.json({ msg: "Estado de paquete registrado exitoxamente" });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ msg: "Solicitud invalida" });
+  }
+};
