@@ -12,6 +12,8 @@ export const RegisterStaff = async (req, res) => {
     apellidos,
     sexo,
     niveles_estudios,
+    fecha_nacimiento,
+    celular,
   } = req.body;
   const salt = await bcrypt.genSalt();
   const hashPassword = await bcrypt.hash(contraseña, salt);
@@ -23,15 +25,21 @@ export const RegisterStaff = async (req, res) => {
       apellidos: apellidos,
       sexo: sexo,
       niveles_estudios: niveles_estudios,
-    });
-    res.json({ msg: "Registrado exitoxamente" });
+      fecha_nacimiento: fecha_nacimiento,
+      celular: celular,
+    }).then((result) =>
+      res.json({
+        msg: "Personal Final registrado exitoxamente",
+        id: result.id_personal,
+      })
+    );
   } catch (error) {
     console.log(error);
     return res.status(400).json({ msg: "Solicitud incorrecta" });
   }
 };
 
-export const GetStaff = async (req, res) => {
+export const GetStaffID = async (req, res) => {
   try {
     const id = req.params.id;
     const data = await StaffRolesModel.findAll({
@@ -40,12 +48,48 @@ export const GetStaff = async (req, res) => {
         {
           model: RolesModel,
         },
-        { model: StaffModel },
+        {
+          model: StaffModel,
+          attributes: [
+            "id_personal",
+            "nombres",
+            "apellidos",
+            "sexo",
+            "niveles_estudios",
+            "creado",
+            "actualizado",
+          ],
+        },
       ],
     });
     res.json({ data: data });
   } catch (error) {
     return res.status(404).json({ msg: "Cliente no encontrado", error: error });
+  }
+};
+export const GetStaff = async (req, res) => {
+  try {
+    const data = await StaffRolesModel.findAll({
+      attributes: [],
+      include: [
+        {
+          model: StaffModel,
+          attributes: [
+            "id_personal",
+            "nombres",
+            "apellidos",
+            "celular",
+            "correo_electronico",
+          ],
+          include: [{ model: RolesModel, attributes: ["nombre"] }],
+        },
+      ],
+    });
+    res.json({ data: data });
+  } catch (error) {
+    return res
+      .status(404)
+      .json({ msg: "Empleado no encontrado", error: error });
   }
 };
 
@@ -68,16 +112,17 @@ export const LoginStaff = async (req, res) => {
     const name = staff[0].nombres;
     const email = staff[0].correo_electronico;
     const sexo = staff[0].sexo;
+    const rol = staff[0].roles;
 
     const accessToken = jwt.sign(
-      { staffId, name, email, sexo },
+      { staffId, name, email, sexo, rol },
       process.env.ACCESS_TOKEN_SECRET,
       {
         expiresIn: "20s",
       }
     );
     const refreshToken = jwt.sign(
-      { staffId, name, email, sexo },
+      { staffId, name, email, sexo, rol },
       process.env.REFRESH_TOKEN_SECRET,
       {
         expiresIn: "1h",
@@ -95,7 +140,6 @@ export const LoginStaff = async (req, res) => {
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000,
     });
-    const rol = staff[0].roles;
     res.json({
       accessToken,
       login: true,
@@ -110,23 +154,56 @@ export const LoginStaff = async (req, res) => {
 };
 
 export const LogoutStaff = async (req, res) => {
-  const refreshToken = req.cookies.refreshToken;
-  if (!refreshToken) return res.sendStatus(204);
-  const staff = await StaffModel.findAll({
-    where: {
-      token: refreshToken,
-    },
-  });
-  if (!staff[0]) return res.sendStatus(204);
-  const staffId = staff[0].id_personal;
-  await StaffModel.update(
-    { token: null },
-    {
+  try {
+    const id = req.params.id;
+    await StaffModel.update(
+      { token: null },
+      {
+        where: {
+          id_personal: id,
+        },
+      }
+    );
+    return res.sendStatus(200);
+  } catch (error) {
+    res.status(404).json({ msg: "Ha ocurrido un error" });
+  }
+};
+
+export const StaffRol = async (req, res) => {
+  const { id_personal, id_roles } = req.body;
+  try {
+    await StaffRolesModel.create({
+      id_personal: id_personal,
+      id_roles: id_roles,
+    });
+    res.json({
+      msg: "Rol agregado exitoxamente",
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ msg: "Solicitud incorrecta" });
+  }
+};
+
+export const RemoveStaff = async (req, res) => {
+  try {
+    const id = req.params.id;
+    await StaffRolesModel.destroy({
       where: {
-        id_personal: staffId,
+        id_personal: id,
       },
-    }
-  );
-  res.clearCookie("refreshToken");
-  return res.sendStatus(200);
+    });
+
+    await StaffModel.destroy({
+      where: {
+        id_personal: id,
+      },
+    });
+
+    return res.sendStatus(200);
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({ msg: "Ha ocurrido un error" });
+  }
 };

@@ -31,6 +31,13 @@ const StaffModel = db.define("personal", {
     type: DataTypes.TEXT,
     allowNull: true,
   },
+  fecha_nacimiento: {
+    type: DataTypes.DATE,
+  },
+  celular: {
+    type: DataTypes.TIME,
+    allowNull: true,
+  },
   creado: {
     type: DataTypes.TIME,
     allowNull: true,
