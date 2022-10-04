@@ -4,6 +4,7 @@ import {
   Package,
   GetPackage,
   GetPackageStates,
+  AddPackageStates,
 } from "../controllers/package.js";
 import {
   refreshTokenClient,
@@ -40,6 +41,7 @@ router.post("/addEndUsers", EndUsers);
 router.post("/addInvoice", AddInvoice);
 router.post("/paymentTransaction", PaymentTransaction);
 router.post("/addStaffRol", StaffRol);
+router.post("/addPackageStates", AddPackageStates);
 
 // GET
 router.get("/tokenClient", refreshTokenClient);
