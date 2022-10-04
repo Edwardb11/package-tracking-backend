@@ -101,8 +101,9 @@ export const GetPackageStates = async (req, res) => {
 export const AddPackageStates = async (req, res) => {
   const { id_paquetes, id_estado, id_personal, ubicacion } = req.body;
   console.log(req.body);
+
   try {
-    await PackageModel.create({
+    await PackagesStatesModel.create({
       id_paquetes: id_paquetes,
       id_estado: id_estado,
       id_personal: id_personal,
@@ -111,6 +112,11 @@ export const AddPackageStates = async (req, res) => {
     res.json({ msg: "Estado de paquete registrado exitoxamente" });
   } catch (error) {
     console.log(error);
-    return res.status(400).json({ msg: "Solicitud invalida" });
+    if (error.name === "SequelizeUniqueConstraintError") {
+      return res
+        .status(400)
+        .json({ msg: "El estado agregado, ya estaba registrado" });
+    }
+    return res.status(400).json(error);
   }
 };
