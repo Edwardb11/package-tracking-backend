@@ -113,3 +113,41 @@ export const AddPackageStates = async (req, res) => {
     return res.status(400).json(error);
   }
 };
+
+export const GetPackageAdmin = async (req, res) => {
+  try {
+    const packages = await PackageModel.findAll({
+      include: [
+        {
+          model: ClientModel,
+          attributes: ["id_cliente", "nombres", "apellidos", "sexo", "celular"],
+        },
+        {
+          model: EndUsersModel,
+          attributes: [
+            "id_usuario_final",
+            "nombres",
+            "apellidos",
+            "sexo",
+            "celular",
+          ],
+        },
+      ],
+    });
+
+    const data = await PackagesStatesModel.findAll({
+      include: [
+        { model: StateModel },
+        {
+          model: StaffModel,
+          attributes: ["id_personal", "nombres", "apellidos"],
+          include: [{ model: RolesModel, attributes: ["nombre"] }],
+        },
+      ],
+    });
+
+    res.json({ package: packages, data: data });
+  } catch (error) {
+    return res.status(404).json({ msg: "Paquete no encontrado", error: error });
+  }
+};
