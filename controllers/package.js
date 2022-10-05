@@ -117,10 +117,22 @@ export const AddPackageStates = async (req, res) => {
 export const GetPackageAdmin = async (req, res) => {
   try {
     const packages = await PackagesStatesModel.findAll({
-      // attributes: ["id_paquete", "nombre", "peso", "ubicacion"],
       include: [
         {
           model: PackageModel,
+          attributes: ["id_paquete", "nombre", "peso", "ubicacion"],
+          include: [
+            {
+              model: EndUsersModel,
+              attributes: [
+                "id_usuario_final",
+                "nombres",
+                "apellidos",
+                "sexo",
+                "celular",
+              ],
+            },
+          ],
           right: true,
         },
       ],
