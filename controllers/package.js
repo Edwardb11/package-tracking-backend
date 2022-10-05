@@ -61,15 +61,7 @@ export const GetPackageStates = async (req, res) => {
         { model: StateModel },
         {
           model: StaffModel,
-          attributes: [
-            "id_personal",
-            "nombres",
-            "apellidos",
-            "sexo",
-            "niveles_estudios",
-            "creado",
-            "actualizado",
-          ],
+          attributes: ["id_personal", "nombres", "apellidos"],
           include: [{ model: RolesModel, attributes: ["nombre"] }],
         },
       ],
@@ -79,17 +71,18 @@ export const GetPackageStates = async (req, res) => {
       include: [
         {
           model: ClientModel,
+          attributes: ["id_cliente", "nombres", "apellidos", "sexo", "celular"],
+        },
+        {
+          model: EndUsersModel,
           attributes: [
-            "id_cliente",
+            "id_usuario_final",
             "nombres",
             "apellidos",
             "sexo",
             "celular",
-            "creado",
-            "actualizado",
           ],
         },
-        { model: EndUsersModel },
       ],
     });
     res.json({ package: packages, state: data });
