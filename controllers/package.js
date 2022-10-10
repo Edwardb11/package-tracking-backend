@@ -52,7 +52,7 @@ export const GetPackage = async (req, res) => {
   }
 };
 
-export const GetPackageStates = async (req, res) => {
+export const Tracking = async (req, res) => {
   try {
     const id = req.params.id;
     const data = await PackagesStatesModel.findAll({
@@ -118,19 +118,14 @@ export const GetPackageAdmin = async (req, res) => {
   try {
     const packages = await PackagesStatesModel.findAll({
       include: [
-        {model:StateModel},
+        { model: StateModel },
         {
           model: PackageModel,
           attributes: ["id_paquete", "nombre", "peso", "ubicacion"],
           include: [
             {
               model: EndUsersModel,
-              attributes: [
-                "nombres",
-                "apellidos",
-                "celular",
-                "ubicacion"
-              ],
+              attributes: ["nombres", "apellidos", "celular", "ubicacion"],
             },
           ],
           right: true,
@@ -139,6 +134,26 @@ export const GetPackageAdmin = async (req, res) => {
     });
 
     res.json({ package: packages });
+  } catch (error) {
+    return res.status(404).json({ msg: "Paquete no encontrado", error: error });
+  }
+};
+
+export const GetPackageStates = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const data = await PackagesStatesModel.findAll({
+      where: { id_paquetes: id },
+      include: [
+        { model: StateModel },
+        {
+          model: StaffModel,
+          attributes: ["id_personal", "nombres", "apellidos"],
+          include: [{ model: RolesModel, attributes: ["nombre"] }],
+        },
+      ],
+    });
+    res.json({ state: data });
   } catch (error) {
     return res.status(404).json({ msg: "Paquete no encontrado", error: error });
   }

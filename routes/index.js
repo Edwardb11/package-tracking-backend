@@ -6,6 +6,7 @@ import {
   GetPackageStates,
   AddPackageStates,
   GetPackageAdmin,
+  Tracking,
 } from "../controllers/package.js";
 import {
   refreshTokenClient,
@@ -53,6 +54,7 @@ router.get("/getState", GetStates);
 router.get("/getRoles", GetRoles);
 router.get("/getPayment", GetPaymentMethod);
 router.get("/getPackage/:id", GetPackage);
+router.get("/tracking/:id", Tracking);
 router.get("/getPackageStates/:id", GetPackageStates);
 router.get("/getStaffID/:id", GetStaffID);
 router.get("/getStaff", GetStaff);
