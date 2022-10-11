@@ -4,6 +4,9 @@ import {
   Package,
   GetPackage,
   GetPackageStates,
+  AddPackageStates,
+  GetPackageAdmin,
+  Tracking,
 } from "../controllers/package.js";
 import {
   refreshTokenClient,
@@ -41,6 +44,9 @@ router.post("/addInvoice", AddInvoice);
 router.post("/paymentTransaction", PaymentTransaction);
 router.post("/addStaffRol", StaffRol);
 
+// ADIM POST
+router.post("/addPackageStates", AddPackageStates);
+
 // GET
 router.get("/tokenClient", refreshTokenClient);
 router.get("/tokenStaff", refreshTokenStaff);
@@ -48,12 +54,16 @@ router.get("/getState", GetStates);
 router.get("/getRoles", GetRoles);
 router.get("/getPayment", GetPaymentMethod);
 router.get("/getPackage/:id", GetPackage);
+router.get("/tracking/:id", Tracking);
 router.get("/getPackageStates/:id", GetPackageStates);
 router.get("/getStaffID/:id", GetStaffID);
 router.get("/getStaff", GetStaff);
 router.get("/getClient/:id", GetClient);
 router.get("/getPaymentTransaction/:id", GetPaymentTransaction);
 router.get("/getInvoice/:id", GetInvoice);
+
+// ADMIN GET
+router.get("/getPackageAdmin", GetPackageAdmin);
 
 // PUT
 
