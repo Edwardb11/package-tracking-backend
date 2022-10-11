@@ -163,7 +163,7 @@ export const GetPackageReady = async (req, res) => {
   try {
     const data = await PackagesStatesModel.findAll({
       where: { id_estado: 5 },
-      attributes: [],
+      attributes: ["creado", "actualizado"],
       include: [
         {
           model: PackageModel,
