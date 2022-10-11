@@ -158,3 +158,36 @@ export const GetPackageStates = async (req, res) => {
     return res.status(404).json({ msg: "Paquete no encontrado", error: error });
   }
 };
+
+export const GetPackageReady = async (req, res) => {
+  try {
+    const data = await PackagesStatesModel.findAll({
+      where: { id_estado: 5 },
+      attributes: [],
+      include: [
+        {
+          model: PackageModel,
+          include: [
+            {
+              model: ClientModel,
+              attributes: ["nombres", "apellidos", "celular"],
+            },
+            {
+              model: EndUsersModel,
+              attributes: ["nombres", "apellidos", "celular", "ubicacion"],
+            },
+            {
+              model: InvoiceModel,
+              attributes: ["cantidad_a_pagar", "creado", "actualizado"],
+            },
+          ],
+        },
+      ],
+    });
+    res.json({
+      data: data,
+    });
+  } catch (error) {
+    return res.status(400).json({ msg: "Solicitud incorrecta", error: error });
+  }
+};
