@@ -53,7 +53,6 @@ export const GetInvoicePending = async (req, res) => {
   try {
     const data = await PackagesStatesModel.findAll({
       where: { id_estado: 3 },
-      // attributes: ["creado", "actualizado"],
       include: [
         {
           model: PackageModel,
@@ -74,23 +73,13 @@ export const GetInvoicePending = async (req, res) => {
         },
       ],
     });
-    const compare = await PackagesStatesModel.findAll({
-      where: { id_estado: 4 || 5 || 6 },
-      // attributes: ["creado", "actualizado"],
+    const result = data.filter((i) => {
+      if (i.paquete.facturas.length === 0) {
+        return i;
+      }
     });
-
-    let result = [];
-    data.map((alt) => {
-      compare.map((comp) => {
-        if (alt.id_paquetes !== comp.id_paquetes) {
-          return result.push(alt);
-        }
-      });
-    });
-    // console.log(result);
     res.json({
-      // data: data,
-      compare: result,
+      data: result,
     });
   } catch (error) {
     return res.status(400).json({ msg: "Solicitud incorrecta", error: error });
