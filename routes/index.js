@@ -26,7 +26,7 @@ import {
 import { GetStates } from "../controllers/states.js";
 import { GetRoles } from "../controllers/roles.js";
 import { GetPaymentMethod } from "../controllers/paymentMethod.js";
-import { AddInvoice, GetInvoice } from "../controllers/invoice.js";
+import { AddInvoice, GetInvoice, GetInvoicePending } from "../controllers/invoice.js";
 import {
   GetPaymentTransaction,
   PaymentTransaction,
@@ -63,6 +63,7 @@ router.get("/getClient/:id", GetClient);
 router.get("/getPaymentTransaction/:id", GetPaymentTransaction);
 router.get("/getInvoice/:id", GetInvoice);
 router.get("/getPackageReady", GetPackageReady);
+router.get("/getInvoicePending", GetInvoicePending);
 
 // ADMIN GET
 router.get("/getPackageAdmin", GetPackageAdmin);
