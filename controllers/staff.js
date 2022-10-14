@@ -207,3 +207,22 @@ export const RemoveStaff = async (req, res) => {
     res.status(404).json({ msg: "Ha ocurrido un error" });
   }
 };
+export const ChangeStateStaff = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const { activo } = req.body;
+    await StaffModel.update(
+      { activo: activo },
+      {
+        where: {
+          id_personal: id,
+        },
+      }
+    );
+    return res.sendStatus(200);
+  } catch (error) {
+    console.log(error);
+    res.status(404).json(error);
+    return error;
+  }
+};

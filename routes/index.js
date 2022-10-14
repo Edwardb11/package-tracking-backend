@@ -15,6 +15,7 @@ import {
 } from "../controllers/refreshToken.js";
 import { EndUsers } from "../controllers/endUsers.js";
 import {
+  ChangeStateStaff,
   GetStaff,
   GetStaffID,
   LoginStaff,
@@ -26,7 +27,11 @@ import {
 import { GetStates } from "../controllers/states.js";
 import { GetRoles } from "../controllers/roles.js";
 import { GetPaymentMethod } from "../controllers/paymentMethod.js";
-import { AddInvoice, GetInvoice, GetInvoicePending } from "../controllers/invoice.js";
+import {
+  AddInvoice,
+  GetInvoice,
+  GetInvoicePending,
+} from "../controllers/invoice.js";
 import {
   GetPaymentTransaction,
   PaymentTransaction,
@@ -69,6 +74,7 @@ router.get("/getInvoicePending", GetInvoicePending);
 router.get("/getPackageAdmin", GetPackageAdmin);
 
 // PUT
+router.put("/changeStateStaff/:id", ChangeStateStaff);
 
 // DELETE
 router.delete("/logout/:id", Logout);
