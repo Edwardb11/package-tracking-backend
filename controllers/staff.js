@@ -226,3 +226,21 @@ export const ChangeStateStaff = async (req, res) => {
     return error;
   }
 };
+
+export const RemoveRol = async (req, res) => {
+  const { id_personal, id_roles } = req.body;
+  try {
+    await StaffRolesModel.destroy({
+      where: {
+        id_personal: id_personal,
+        id_roles: id_roles,
+      },
+    });
+    res.json({
+      msg: "Rol eliminado exitoxamente",
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ msg: "Solicitud incorrecta" });
+  }
+};

@@ -21,6 +21,7 @@ import {
   LoginStaff,
   LogoutStaff,
   RegisterStaff,
+  RemoveRol,
   RemoveStaff,
   StaffRol,
 } from "../controllers/staff.js";
@@ -80,5 +81,6 @@ router.put("/changeStateStaff/:id", ChangeStateStaff);
 router.delete("/logout/:id", Logout);
 router.delete("/removeStaff/:id", RemoveStaff);
 router.delete("/logoutStaff/:id", LogoutStaff);
+router.delete("/removeRol", RemoveRol);
 
 export default router;
