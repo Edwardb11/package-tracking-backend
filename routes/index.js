@@ -34,6 +34,7 @@ import {
   GetInvoicePending,
 } from "../controllers/invoice.js";
 import {
+  getPackagePaid,
   GetPaymentTransaction,
   PaymentTransaction,
 } from "../controllers/transactions.js";
@@ -60,6 +61,7 @@ router.get("/tokenStaff", refreshTokenStaff);
 router.get("/getState", GetStates);
 router.get("/getRoles", GetRoles);
 router.get("/getPayment", GetPaymentMethod);
+router.get("/getPackagePaid", getPackagePaid);
 router.get("/getPackage/:id", GetPackage);
 router.get("/tracking/:id", Tracking);
 router.get("/getPackageStates/:id", GetPackageStates);
