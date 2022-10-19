@@ -80,3 +80,4 @@ export const getPackagePaid = async (req, res) => {
       .json({ msg: "Transsacion no encontrada", paid: false });
   }
 };
+
