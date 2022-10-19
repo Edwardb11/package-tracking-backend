@@ -35,8 +35,11 @@ const StaffModel = db.define("personal", {
     type: DataTypes.DATE,
   },
   celular: {
-    type: DataTypes.TIME,
+    type: DataTypes.STRING,
     allowNull: true,
+  },
+  activo: {
+    type: DataTypes.BOOLEAN,
   },
   creado: {
     type: DataTypes.TIME,

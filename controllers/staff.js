@@ -207,3 +207,40 @@ export const RemoveStaff = async (req, res) => {
     res.status(404).json({ msg: "Ha ocurrido un error" });
   }
 };
+export const ChangeStateStaff = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const { activo } = req.body;
+    await StaffModel.update(
+      { activo: activo },
+      {
+        where: {
+          id_personal: id,
+        },
+      }
+    );
+    return res.sendStatus(200);
+  } catch (error) {
+    console.log(error);
+    res.status(404).json(error);
+    return error;
+  }
+};
+
+export const RemoveRol = async (req, res) => {
+  const { id_personal, id_roles } = req.body;
+  try {
+    await StaffRolesModel.destroy({
+      where: {
+        id_personal: id_personal,
+        id_roles: id_roles,
+      },
+    });
+    res.json({
+      msg: "Rol eliminado exitoxamente",
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ msg: "Solicitud incorrecta" });
+  }
+};
