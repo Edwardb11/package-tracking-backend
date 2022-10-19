@@ -66,7 +66,6 @@ export const GetPaymentTransaction = async (req, res) => {
 };
 
 export const getPackagePaid = async (req, res) => {
-  const id = req.params.id;
   try {
     const data = await TransactionsModel.findAll({});
 
@@ -80,4 +79,3 @@ export const getPackagePaid = async (req, res) => {
       .json({ msg: "Transsacion no encontrada", paid: false });
   }
 };
-
