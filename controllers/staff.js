@@ -80,6 +80,7 @@ export const GetStaff = async (req, res) => {
             "apellidos",
             "celular",
             "correo_electronico",
+            "activo",
           ],
           include: [{ model: RolesModel, attributes: ["nombre"] }],
         },
