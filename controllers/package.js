@@ -204,7 +204,7 @@ export const GetPackagePendingShipping = async (req, res) => {
     /* Getting all the packages that are in the state 5. */
     const data = await PackagesStatesModel.findAll({
       where: { id_estado: 5 },
-      attributes: ["creado", "actualizado"],
+      // attributes: ["creado", "actualizado","ubicacion"],
       include: [
         {
           model: PackageModel,
@@ -228,7 +228,6 @@ export const GetPackagePendingShipping = async (req, res) => {
     /* Getting all the packages that are in the state 6. */
     const getMoreStates = await PackagesStatesModel.findAll({
       where: { id_estado: 6 },
-      attributes: ["creado", "actualizado"],
       include: [
         {
           model: PackageModel,
@@ -238,10 +237,15 @@ export const GetPackagePendingShipping = async (req, res) => {
 
     /* Filtering the data to get the packages that are not in the state 6. */
     let results = [];
-    data.map((i) => {
+    data.filter((i) => {
+      console.log(i.paquete.id_paquete);
       getMoreStates.filter((e) => {
-        if (e.paquete.id_paquete !== i.paquete.id_paquete) {
+        // console.log(i.paquete.id_paquete)
+        // console.log(e.paquete.id_paquete !== i.paquete.id_paquete)
+        if (i.paquete.id_paquete !== e.paquete.id_paquete) {
           results.push(i);
+        } else {
+          results = [];
         }
       });
     });
