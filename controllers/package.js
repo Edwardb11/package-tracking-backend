@@ -19,6 +19,7 @@ export const Package = async (req, res) => {
   } = req.body;
   console.log(req.body);
   try {
+    let id = "";
     await PackageModel.create({
       id_paquete: id_paquete,
       id_cliente: id_cliente,
@@ -27,8 +28,14 @@ export const Package = async (req, res) => {
       peso: peso,
       cantidad: cantidad,
       ubicacion: ubicacion,
-    });
-    res.json({ msg: "Paquete registrado exitoxamente" });
+    }).then((result) => (id = result.id_paquete)),
+      PackagesStatesModel.create({
+        id_paquetes: id,
+        id_estado: 0,
+        id_personal: 0,
+        ubicacion: ubicacion,
+      }),
+      res.json({ msg: "Paquete registrado exitoxamente" });
   } catch (error) {
     console.log(error);
     return res.status(400).json({ msg: "Solicitud invalida" });
@@ -162,7 +169,7 @@ export const GetPackageStates = async (req, res) => {
 export const GetPackageReady = async (req, res) => {
   try {
     const data = await PackagesStatesModel.findAll({
-      where: { id_estado: 6 },
+      where: { id_estado: 7 },
       attributes: ["creado", "actualizado"],
       include: [
         {
@@ -186,6 +193,119 @@ export const GetPackageReady = async (req, res) => {
     });
     res.json({
       data: data,
+    });
+  } catch (error) {
+    return res.status(400).json({ msg: "Solicitud incorrecta", error: error });
+  }
+};
+
+export const GetPackagePendingShipping = async (req, res) => {
+  try {
+    /* Getting all the packages that are in the state 5. */
+    const data = await PackagesStatesModel.findAll({
+      where: { id_estado: 5 },
+      // attributes: ["creado", "actualizado","ubicacion"],
+      include: [
+        {
+          model: PackageModel,
+          include: [
+            {
+              model: ClientModel,
+              attributes: ["nombres", "apellidos", "celular"],
+            },
+            {
+              model: EndUsersModel,
+              attributes: ["nombres", "apellidos", "celular", "ubicacion"],
+            },
+            {
+              model: InvoiceModel,
+              attributes: ["cantidad_a_pagar", "creado", "actualizado"],
+            },
+          ],
+        },
+      ],
+    });
+    /* Getting all the packages that are in the state 6. */
+    const getMoreStates = await PackagesStatesModel.findAll({
+      where: { id_estado: 6 },
+      include: [
+        {
+          model: PackageModel,
+        },
+      ],
+    });
+
+    /* Filtering the data to get the packages that are not in the state 6. */
+    let results = [];
+    data.filter((i) => {
+      console.log(i.paquete.id_paquete);
+      getMoreStates.filter((e) => {
+        // console.log(i.paquete.id_paquete)
+        // console.log(e.paquete.id_paquete !== i.paquete.id_paquete)
+        if (i.paquete.id_paquete !== e.paquete.id_paquete) {
+          results.push(i);
+        } else {
+          results = [];
+        }
+      });
+    });
+    res.json({
+      data: results,
+    });
+  } catch (error) {
+    return res.status(400).json({ msg: "Solicitud incorrecta", error: error });
+  }
+};
+export const GetPackagesShipped = async (req, res) => {
+  try {
+    /* Getting all the packages that are in the state 6. */
+    const data = await PackagesStatesModel.findAll({
+      where: { id_estado: 6 },
+      // attributes: ["creado", "actualizado","ubicacion"],
+      include: [
+        {
+          model: PackageModel,
+          include: [
+            {
+              model: ClientModel,
+              attributes: ["nombres", "apellidos", "celular"],
+            },
+            {
+              model: EndUsersModel,
+              attributes: ["nombres", "apellidos", "celular", "ubicacion"],
+            },
+            {
+              model: InvoiceModel,
+              attributes: ["cantidad_a_pagar", "creado", "actualizado"],
+            },
+          ],
+        },
+      ],
+    });
+
+    const getMoreStates = await PackagesStatesModel.findAll({
+      /* Getting all the packages that are in the state 7. */
+      where: { id_estado: 7 },
+      include: [
+        {
+          model: PackageModel,
+        },
+      ],
+    });
+
+    /* Filtering the data to get the packages that are not in the state 7. */
+    let results = [];
+    data.filter((i) => {
+      getMoreStates.filter((e) => {
+        if (i.paquete.id_paquete !== e.paquete.id_paquete) {
+          results.push(i);
+        } else {
+          results = [];
+        }
+      });
+    });
+    res.json({
+      data: results,
     });
   } catch (error) {
     return res.status(400).json({ msg: "Solicitud incorrecta", error: error });
