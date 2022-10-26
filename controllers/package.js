@@ -256,3 +256,58 @@ export const GetPackagePendingShipping = async (req, res) => {
     return res.status(400).json({ msg: "Solicitud incorrecta", error: error });
   }
 };
+export const GetPackagesShipped = async (req, res) => {
+  try {
+    /* Getting all the packages that are in the state 6. */
+    const data = await PackagesStatesModel.findAll({
+      where: { id_estado: 6 },
+      // attributes: ["creado", "actualizado","ubicacion"],
+      include: [
+        {
+          model: PackageModel,
+          include: [
+            {
+              model: ClientModel,
+              attributes: ["nombres", "apellidos", "celular"],
+            },
+            {
+              model: EndUsersModel,
+              attributes: ["nombres", "apellidos", "celular", "ubicacion"],
+            },
+            {
+              model: InvoiceModel,
+              attributes: ["cantidad_a_pagar", "creado", "actualizado"],
+            },
+          ],
+        },
+      ],
+    });
+
+    const getMoreStates = await PackagesStatesModel.findAll({
+      /* Getting all the packages that are in the state 7. */
+      where: { id_estado: 7 },
+      include: [
+        {
+          model: PackageModel,
+        },
+      ],
+    });
+
+    /* Filtering the data to get the packages that are not in the state 7. */
+    let results = [];
+    data.filter((i) => {
+      getMoreStates.filter((e) => {
+        if (i.paquete.id_paquete !== e.paquete.id_paquete) {
+          results.push(i);
+        } else {
+          results = [];
+        }
+      });
+    });
+    res.json({
+      data: results,
+    });
+  } catch (error) {
+    return res.status(400).json({ msg: "Solicitud incorrecta", error: error });
+  }
+};

@@ -9,6 +9,7 @@ import {
   Tracking,
   GetPackageReady,
   GetPackagePendingShipping,
+  GetPackagesShipped,
 } from "../controllers/package.js";
 import {
   refreshTokenClient,
@@ -74,6 +75,7 @@ router.get("/getInvoice/:id", GetInvoice);
 router.get("/getPackageReady", GetPackageReady);
 router.get("/getInvoicePending", GetInvoicePending);
 router.get("/getPendingShipping", GetPackagePendingShipping);
+router.get("/getPackagesShipped", GetPackagesShipped);
 
 // ADMIN GET
 router.get("/getPackageAdmin", GetPackageAdmin);
