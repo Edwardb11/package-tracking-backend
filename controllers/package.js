@@ -19,6 +19,7 @@ export const Package = async (req, res) => {
   } = req.body;
   console.log(req.body);
   try {
+    let id = "";
     await PackageModel.create({
       id_paquete: id_paquete,
       id_cliente: id_cliente,
@@ -27,8 +28,14 @@ export const Package = async (req, res) => {
       peso: peso,
       cantidad: cantidad,
       ubicacion: ubicacion,
-    });
-    res.json({ msg: "Paquete registrado exitoxamente" });
+    }).then((result) => (id = result.id_paquete)),
+      PackagesStatesModel.create({
+        id_paquetes: id,
+        id_estado: 0,
+        id_personal: 0,
+        ubicacion: ubicacion,
+      }),
+      res.json({ msg: "Paquete registrado exitoxamente" });
   } catch (error) {
     console.log(error);
     return res.status(400).json({ msg: "Solicitud invalida" });
@@ -162,7 +169,7 @@ export const GetPackageStates = async (req, res) => {
 export const GetPackageReady = async (req, res) => {
   try {
     const data = await PackagesStatesModel.findAll({
-      where: { id_estado: 6 },
+      where: { id_estado: 7 },
       attributes: ["creado", "actualizado"],
       include: [
         {

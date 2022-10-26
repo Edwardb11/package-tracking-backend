@@ -27,6 +27,7 @@ export const RegisterStaff = async (req, res) => {
       niveles_estudios: niveles_estudios,
       fecha_nacimiento: fecha_nacimiento,
       celular: celular,
+      activo: true,
     }).then((result) =>
       res.json({
         msg: "Personal Final registrado exitoxamente",
