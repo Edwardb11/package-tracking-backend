@@ -10,6 +10,7 @@ import {
   GetPackageReady,
   GetPackagePendingShipping,
   GetPackagesShipped,
+  ChangeLastState,
 } from "../controllers/package.js";
 import {
   refreshTokenClient,
@@ -82,6 +83,7 @@ router.get("/getPackageAdmin", GetPackageAdmin);
 
 // PUT
 router.put("/changeStateStaff/:id", ChangeStateStaff);
+router.put("/changeLastState", ChangeLastState);
 
 // DELETE
 router.delete("/logout/:id", Logout);

@@ -21,6 +21,9 @@ const PackagesStatesModel = db.define("paquetes_estados", {
   ubicacion: {
     type: DataTypes.STRING,
   },
+  activo: {
+    type: DataTypes.BOOLEAN,
+  },
   creado: {
     type: DataTypes.TIME,
     allowNull: true,
