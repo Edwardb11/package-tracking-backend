@@ -34,7 +34,7 @@ export const Package = async (req, res) => {
         id_estado: 0,
         id_personal: 0,
         ubicacion: ubicacion,
-        activo: true,
+        activo: 1,
       }),
       res.json({ msg: "Paquete registrado exitoxamente" });
   } catch (error) {
