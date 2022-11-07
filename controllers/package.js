@@ -34,6 +34,7 @@ export const Package = async (req, res) => {
         id_estado: 0,
         id_personal: 0,
         ubicacion: ubicacion,
+        activo: 1,
       }),
       res.json({ msg: "Paquete registrado exitoxamente" });
   } catch (error) {
@@ -99,7 +100,7 @@ export const Tracking = async (req, res) => {
 };
 
 export const AddPackageStates = async (req, res) => {
-  const { id_paquetes, id_estado, id_personal, ubicacion } = req.body;
+  const { id_paquetes, id_estado, id_personal, ubicacion, activo } = req.body;
   console.log(req.body);
 
   try {
@@ -108,6 +109,7 @@ export const AddPackageStates = async (req, res) => {
       id_estado: id_estado,
       id_personal: id_personal,
       ubicacion: ubicacion,
+      activo: activo,
     });
     res.json({ msg: "Estado de paquete registrado exitoxamente" });
   } catch (error) {
@@ -309,5 +311,25 @@ export const GetPackagesShipped = async (req, res) => {
     });
   } catch (error) {
     return res.status(400).json({ msg: "Solicitud incorrecta", error: error });
+  }
+};
+
+export const ChangeLastState = async (req, res) => {
+  const { id_estado, id_paquetes } = req.body;
+  try {
+    await PackagesStatesModel.update(
+      { activo: 0 },
+      {
+        where: {
+          id_paquetes: id_paquetes,
+          id_estado: id_estado,
+        },
+      }
+    );
+    return res.sendStatus(200);
+  } catch (error) {
+    return res
+      .status(404)
+      .json({ msg: "Paquete no encontrado aa", error: error });
   }
 };
