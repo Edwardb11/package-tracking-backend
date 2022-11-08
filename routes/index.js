@@ -11,6 +11,7 @@ import {
   GetPackagePendingShipping,
   GetPackagesShipped,
   ChangeLastState,
+  GetAreaCharts,
 } from "../controllers/package.js";
 import {
   refreshTokenClient,
@@ -77,9 +78,8 @@ router.get("/getPackageReady", GetPackageReady);
 router.get("/getInvoicePending", GetInvoicePending);
 router.get("/getPendingShipping", GetPackagePendingShipping);
 router.get("/getPackagesShipped", GetPackagesShipped);
-
-// ADMIN GET
 router.get("/getPackageAdmin", GetPackageAdmin);
+router.get("/getAreaCharts", GetAreaCharts);
 
 // PUT
 router.put("/changeStateStaff/:id", ChangeStateStaff);
