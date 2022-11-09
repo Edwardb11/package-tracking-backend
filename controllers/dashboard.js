@@ -1,7 +1,9 @@
 import ClientModel from "../models/clientModel.js";
 import PackageModel from "../models/packageModel.js";
 import PackagesStatesModel from "../models/packagesStatesModel.js";
+import RolesModel from "../models/rolesModel.js";
 import StaffModel from "../models/staffModel.js";
+import StateModel from "../models/statesModel.js";
 import TransactionsModel from "../models/transactionsModel.js";
 
 /**
@@ -125,6 +127,13 @@ export const GetAreaChartsHistory = async (req, res) => {
   }
 };
 
+/**
+ * It gets the total of packages, clients, staff and the total of the invoices
+ * @param req - The request object represents the HTTP request and has properties for the request query
+ * string, parameters, body, HTTP headers, and so on.
+ * @param res - The response object.
+ * @returns The total of packages, clients, staff and the total of the invoices.
+ */
 export const GetCountTotal = async (req, res) => {
   try {
     /* Getting the total of packages, clients, staff and the total of the invoices. */
@@ -157,5 +166,25 @@ invoices. */
     });
   } catch (error) {
     return res.status(400).json({ msg: "Solicitud incorrecta", error: error });
+  }
+};
+
+export const LastStates = async (req, res) => {
+  try {
+    const data = await PackagesStatesModel.findAll({
+      limit: 10,
+      order: [["creado", "DESC"]],
+      include: [
+        { model: StateModel },
+        {
+          model: StaffModel,
+          attributes: ["id_personal", "nombres", "apellidos"],
+          include: [{ model: RolesModel, attributes: ["nombre"] }],
+        },
+      ],
+    });
+    res.json({ state: data });
+  } catch (error) {
+    return res.status(404).json({ msg: "Ultimos estados vacio", error: error });
   }
 };
