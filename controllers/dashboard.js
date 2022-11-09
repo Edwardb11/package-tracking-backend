@@ -125,4 +125,37 @@ export const GetAreaChartsHistory = async (req, res) => {
   }
 };
 
+export const GetCountTotal = async (req, res) => {
+  try {
+    /* Getting the total of packages, clients, staff and the total of the invoices. */
+    const packages = await PackageModel.count();
+    const client = await ClientModel.count();
+    const Staff = await StaffModel.count({
+      where: { activo: true },
+    });
+    const invoice = await TransactionsModel.findAll({
+      attributes: ["monto"],
+    });
 
+    /* Adding all the values of the monto attribute of the invoice array. */
+    let totalInvoice = 0;
+    invoice.map((e) => {
+      totalInvoice += e.monto;
+    });
+    /* Creating an array of objects with the total of packages, clients, staff and the total of the
+invoices. */
+    let datas = [
+      { id: 1, title: "Total de paquetes", total: packages },
+      { id: 2, title: "Total de clientes", total: client },
+      { id: 3, title: "Total de empleados", total: Staff },
+      { id: 4, title: "Total generado", total: totalInvoice },
+    ];
+
+    res.json({
+      data: datas,
+      //   invoice:invoice.monto
+    });
+  } catch (error) {
+    return res.status(400).json({ msg: "Solicitud incorrecta", error: error });
+  }
+};

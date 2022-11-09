@@ -11,8 +11,6 @@ import {
   GetPackagePendingShipping,
   GetPackagesShipped,
   ChangeLastState,
-  GetAreaCharts,
-  GetAreaChartsHistory
 } from "../controllers/package.js";
 import {
   refreshTokenClient,
@@ -43,6 +41,7 @@ import {
   GetPaymentTransaction,
   PaymentTransaction,
 } from "../controllers/transactions.js";
+import { GetAreaCharts, GetAreaChartsHistory,GetCountTotal } from "../controllers/dashboard.js";
 
 const router = express.Router();
 
@@ -82,6 +81,7 @@ router.get("/getPackagesShipped", GetPackagesShipped);
 router.get("/getPackageAdmin", GetPackageAdmin);
 router.get("/getAreaCharts", GetAreaCharts);
 router.get("/getAreaChartsHistory", GetAreaChartsHistory);
+router.get("/getCountTotal", GetCountTotal);
 
 // PUT
 router.put("/changeStateStaff/:id", ChangeStateStaff);
