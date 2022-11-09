@@ -87,7 +87,7 @@ router.get("/getPackageAdmin", GetPackageAdmin);
 router.get("/getAreaCharts", GetAreaCharts);
 router.get("/getAreaChartsHistory", GetAreaChartsHistory);
 router.get("/getCountTotal", GetCountTotal);
-router.get("/lastStates", LastStates);
+router.get("/getLastStates", LastStates);
 
 // PUT
 router.put("/changeStateStaff/:id", ChangeStateStaff);
