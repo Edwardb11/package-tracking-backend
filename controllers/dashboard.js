@@ -52,14 +52,14 @@ export const GetAreaCharts = async (req, res) => {
   that state. */
 
     let datas = [
-      { name: "Pendiente", cantidad: pendiente.length },
-      { name: "Recogido", cantidad: recogido.length },
-      { name: "Envalijado", cantidad: envalijado.length },
-      { name: "logistica", cantidad: logistica.length },
-      { name: "Pend. pago", cantidad: pendPago.length },
-      { name: "Pend. envio", cantidad: pendEnvio.length },
-      { name: "Enviado", cantidad: enviado.length },
-      { name: "Entregado", cantidad: entregado.length },
+      { name: "Pendiente", Cantidad: pendiente.length },
+      { name: "Recogido", Cantidad: recogido.length },
+      { name: "Envalijado", Cantidad: envalijado.length },
+      { name: "logistica", Cantidad: logistica.length },
+      { name: "Pend. pago", Cantidad: pendPago.length },
+      { name: "Pend. envio", Cantidad: pendEnvio.length },
+      { name: "Enviado", Cantidad: enviado.length },
+      { name: "Entregado", Cantidad: entregado.length },
     ];
 
     res.json({
@@ -197,6 +197,11 @@ export const LastStates = async (req, res) => {
   }
 };
 
+/**
+ * It takes a request and a response, and returns a response.
+ * @param req - The request object.
+ * @param res - The response object.
+ */
 export const LastSend = async (req, res) => {
   try {
     const data = await PackagesStatesModel.findAll({
@@ -218,7 +223,7 @@ export const LastSend = async (req, res) => {
             },
             {
               model: InvoiceModel,
-              attributes: ["cantidad_a_pagar",],
+              attributes: ["cantidad_a_pagar"],
             },
           ],
         },
