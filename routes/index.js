@@ -45,6 +45,7 @@ import {
   GetAreaCharts,
   GetAreaChartsHistory,
   GetCountTotal,
+  LastSend,
   LastStates,
 } from "../controllers/dashboard.js";
 
@@ -88,6 +89,7 @@ router.get("/getAreaCharts", GetAreaCharts);
 router.get("/getAreaChartsHistory", GetAreaChartsHistory);
 router.get("/getCountTotal", GetCountTotal);
 router.get("/getLastStates", LastStates);
+router.get("/getLastSend", LastSend);
 
 // PUT
 router.put("/changeStateStaff/:id", ChangeStateStaff);

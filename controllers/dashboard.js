@@ -1,4 +1,6 @@
 import ClientModel from "../models/clientModel.js";
+import EndUsersModel from "../models/endUsersModel.js";
+import InvoiceModel from "../models/invoiceModel.js";
 import PackageModel from "../models/packageModel.js";
 import PackagesStatesModel from "../models/packagesStatesModel.js";
 import RolesModel from "../models/rolesModel.js";
@@ -169,6 +171,12 @@ invoices. */
   }
 };
 
+/**
+ * It fetches the last 10 states from the database and returns them as JSON
+ * @param req - The request object.
+ * @param res - The response object.
+ * @returns The last 10 states of the packages
+ */
 export const LastStates = async (req, res) => {
   try {
     const data = await PackagesStatesModel.findAll({
@@ -186,5 +194,40 @@ export const LastStates = async (req, res) => {
     res.json({ state: data });
   } catch (error) {
     return res.status(404).json({ msg: "Ultimos estados vacio", error: error });
+  }
+};
+
+export const LastSend = async (req, res) => {
+  try {
+    const data = await PackagesStatesModel.findAll({
+      where: { id_estado: 7 },
+      attributes: ["creado", "actualizado"],
+      limit: 1,
+      order: [["creado", "DESC"]],
+      include: [
+        {
+          model: PackageModel,
+          include: [
+            {
+              model: ClientModel,
+              attributes: ["nombres", "apellidos"],
+            },
+            {
+              model: EndUsersModel,
+              attributes: ["nombres", "apellidos", "ubicacion"],
+            },
+            {
+              model: InvoiceModel,
+              attributes: ["cantidad_a_pagar",],
+            },
+          ],
+        },
+      ],
+    });
+    res.json({
+      data: data,
+    });
+  } catch (error) {
+    return res.status(400).json({ msg: "Solicitud incorrecta", error: error });
   }
 };
