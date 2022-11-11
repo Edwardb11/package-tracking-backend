@@ -88,7 +88,7 @@ export const Tracking = async (req, res) => {
             "nombres",
             "apellidos",
             "sexo",
-            "celular",
+            "ubicacion",
           ],
         },
       ],
