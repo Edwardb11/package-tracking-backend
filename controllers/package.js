@@ -88,7 +88,7 @@ export const Tracking = async (req, res) => {
             "nombres",
             "apellidos",
             "sexo",
-            "celular",
+            "ubicacion",
           ],
         },
       ],
@@ -240,10 +240,7 @@ export const GetPackagePendingShipping = async (req, res) => {
     /* Filtering the data to get the packages that are not in the state 6. */
     let results = [];
     data.filter((i) => {
-      console.log(i.paquete.id_paquete);
       getMoreStates.filter((e) => {
-        // console.log(i.paquete.id_paquete)
-        // console.log(e.paquete.id_paquete !== i.paquete.id_paquete)
         if (i.paquete.id_paquete !== e.paquete.id_paquete) {
           results.push(i);
         } else {
@@ -251,8 +248,20 @@ export const GetPackagePendingShipping = async (req, res) => {
         }
       });
     });
+
+    /**
+     * It returns a new array with only the unique values from the original array
+     * @param arr - The array to be filtered.
+     * @returns the array without duplicates.
+     */
+    const eliminaDuplicados = (arr) => {
+      return arr.filter((valor, indice) => {
+        return arr.indexOf(valor) === indice;
+      });
+    };
+
     res.json({
-      data: results,
+      data: eliminaDuplicados(results),
     });
   } catch (error) {
     return res.status(400).json({ msg: "Solicitud incorrecta", error: error });
@@ -306,8 +315,19 @@ export const GetPackagesShipped = async (req, res) => {
         }
       });
     });
+
+    /**
+     * It returns a new array with only the unique values from the original array
+     * @param arr - The array to be filtered.
+     * @returns the array without duplicates.
+     */
+    const eliminaDuplicados = (arr) => {
+      return arr.filter((valor, indice) => {
+        return arr.indexOf(valor) === indice;
+      });
+    };
     res.json({
-      data: results,
+      data: eliminaDuplicados(results),
     });
   } catch (error) {
     return res.status(400).json({ msg: "Solicitud incorrecta", error: error });

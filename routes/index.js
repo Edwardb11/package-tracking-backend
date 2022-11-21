@@ -41,6 +41,13 @@ import {
   GetPaymentTransaction,
   PaymentTransaction,
 } from "../controllers/transactions.js";
+import {
+  GetAreaCharts,
+  GetAreaChartsHistory,
+  GetCountTotal,
+  LastSend,
+  LastStates,
+} from "../controllers/dashboard.js";
 
 const router = express.Router();
 
@@ -77,9 +84,12 @@ router.get("/getPackageReady", GetPackageReady);
 router.get("/getInvoicePending", GetInvoicePending);
 router.get("/getPendingShipping", GetPackagePendingShipping);
 router.get("/getPackagesShipped", GetPackagesShipped);
-
-// ADMIN GET
 router.get("/getPackageAdmin", GetPackageAdmin);
+router.get("/getAreaCharts", GetAreaCharts);
+router.get("/getAreaChartsHistory", GetAreaChartsHistory);
+router.get("/getCountTotal", GetCountTotal);
+router.get("/getLastStates", LastStates);
+router.get("/getLastSend", LastSend);
 
 // PUT
 router.put("/changeStateStaff/:id", ChangeStateStaff);
