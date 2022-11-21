@@ -180,7 +180,7 @@ invoices. */
 export const LastStates = async (req, res) => {
   try {
     const data = await PackagesStatesModel.findAll({
-      limit: 10,
+      // limit: 10,
       order: [["creado", "DESC"]],
       include: [
         { model: StateModel },
