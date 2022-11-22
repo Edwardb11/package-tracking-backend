@@ -5,10 +5,10 @@ import cors from "cors";
 
 import db from "./database/Database.js";
 import v1Router from "./routes/index.js";
+import { PORT } from "./database/config.js";
 
 dotenv.config();
 const app = express();
-const PORT = process.env.PORT || 3000;
 
 try {
   await db.authenticate();
