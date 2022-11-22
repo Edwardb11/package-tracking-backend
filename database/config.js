@@ -7,5 +7,5 @@ export const MYSQLDATABASE =
   process.env.MYSQLDATABASE || "sistema_paqueteriaV2";
 export const MYSQLPORT = process.env.MYSQLPORT || 3306;
 export const ORIGIN =
-  "https://package-tracking-frontend-jb39q3nqs-edwardb11.vercel.app" ||
+  "https://package-tracking-frontend-c11j25cif-edwardb11.vercel.app" ||
   "localhost";
