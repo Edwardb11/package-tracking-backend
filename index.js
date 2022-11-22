@@ -5,7 +5,7 @@ import cors from "cors";
 
 import db from "./database/Database.js";
 import v1Router from "./routes/index.js";
-import { PORT } from "./database/config.js";
+import { PORT, ORIGIN } from "./database/config.js";
 
 dotenv.config();
 const app = express();
@@ -20,9 +20,7 @@ try {
 app.use(
   cors({
     credentials: true,
-    origin:
-      "package-tracking-frontend-jb39q3nqs-edwardb11.vercel.app/" ||
-      "localhost",
+    origin: ORIGIN,
   })
 );
 app.use(cookieParser());
