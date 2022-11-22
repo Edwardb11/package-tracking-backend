@@ -66,6 +66,9 @@ router.post("/addStaffRol", StaffRol);
 router.post("/addPackageStates", AddPackageStates);
 
 // GET
+router.get("/", function (req, res) {
+  res.send("Hello World!");
+});
 router.get("/tokenClient", refreshTokenClient);
 router.get("/tokenStaff", refreshTokenStaff);
 router.get("/getState", GetStates);

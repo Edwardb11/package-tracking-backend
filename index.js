@@ -17,7 +17,14 @@ try {
   console.error(error);
 }
 
-app.use(cors({ credentials: true }));
+app.use(
+  cors({
+    credentials: true,
+    origin:
+      "package-tracking-frontend-jb39q3nqs-edwardb11.vercel.app/" ||
+      "localhost",
+  })
+);
 app.use(cookieParser());
 app.use(express.json());
 app.use("/api/v1", v1Router);
