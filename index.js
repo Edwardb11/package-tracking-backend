@@ -5,7 +5,7 @@ import cors from "cors";
 
 import db from "./database/Database.js";
 import v1Router from "./routes/index.js";
-import { PORT } from "./database/config.js";
+import { PORT, ORIGIN } from "./database/config.js";
 
 dotenv.config();
 const app = express();
@@ -17,7 +17,12 @@ try {
   console.error(error);
 }
 
-app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
+app.use(
+  cors({
+    credentials: true,
+    origin: ORIGIN,
+  })
+);
 app.use(cookieParser());
 app.use(express.json());
 app.use("/api/v1", v1Router);
