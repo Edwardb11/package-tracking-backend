@@ -84,6 +84,7 @@ export const GetStaff = async (req, res) => {
             "activo",
           ],
           include: [{ model: RolesModel, attributes: ["nombre"] }],
+          right: true,
         },
       ],
     });
