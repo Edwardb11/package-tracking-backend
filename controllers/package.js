@@ -227,41 +227,14 @@ export const GetPackagePendingShipping = async (req, res) => {
         },
       ],
     });
-    /* Getting all the packages that are in the state 6. */
-    const getMoreStates = await PackagesStatesModel.findAll({
-      where: { id_estado: 6 },
-      include: [
-        {
-          model: PackageModel,
-        },
-      ],
+    /* Filtering the data to get only the packages that are active. */
+    const filters = data.filter((e) => {
+      if (e.activo) {
+        return e;
+      }
     });
-
-    /* Filtering the data to get the packages that are not in the state 6. */
-    let results = [];
-    data.filter((i) => {
-      getMoreStates.filter((e) => {
-        if (i.paquete.id_paquete !== e.paquete.id_paquete) {
-          results.push(i);
-        } else {
-          results = [];
-        }
-      });
-    });
-
-    /**
-     * It returns a new array with only the unique values from the original array
-     * @param arr - The array to be filtered.
-     * @returns the array without duplicates.
-     */
-    const eliminaDuplicados = (arr) => {
-      return arr.filter((valor, indice) => {
-        return arr.indexOf(valor) === indice;
-      });
-    };
-
     res.json({
-      data: eliminaDuplicados(results),
+      data: filters,
     });
   } catch (error) {
     return res.status(400).json({ msg: "Solicitud incorrecta", error: error });
@@ -294,40 +267,15 @@ export const GetPackagesShipped = async (req, res) => {
       ],
     });
 
-    const getMoreStates = await PackagesStatesModel.findAll({
-      /* Getting all the packages that are in the state 7. */
-      where: { id_estado: 7 },
-      include: [
-        {
-          model: PackageModel,
-        },
-      ],
+    /* Filtering the data to get only the packages that are active. */
+    const filters = data.filter((e) => {
+      if (e.activo) {
+        return e;
+      }
     });
 
-    /* Filtering the data to get the packages that are not in the state 7. */
-    let results = [];
-    data.filter((i) => {
-      getMoreStates.filter((e) => {
-        if (i.paquete.id_paquete !== e.paquete.id_paquete) {
-          results.push(i);
-        } else {
-          results = [];
-        }
-      });
-    });
-
-    /**
-     * It returns a new array with only the unique values from the original array
-     * @param arr - The array to be filtered.
-     * @returns the array without duplicates.
-     */
-    const eliminaDuplicados = (arr) => {
-      return arr.filter((valor, indice) => {
-        return arr.indexOf(valor) === indice;
-      });
-    };
     res.json({
-      data: eliminaDuplicados(results),
+      data: filters,
     });
   } catch (error) {
     return res.status(400).json({ msg: "Solicitud incorrecta", error: error });
